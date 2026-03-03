@@ -1,0 +1,6 @@
+@Coldmart.Alunos.API_HostAddress = http://localhost:5076
+
+GET {{Coldmart.Alunos.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

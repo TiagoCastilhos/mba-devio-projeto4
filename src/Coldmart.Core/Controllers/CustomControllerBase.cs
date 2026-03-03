@@ -1,7 +1,8 @@
 ﻿using Coldmart.Core.Notificacao;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Coldmart.API.Controllers;
+namespace Coldmart.Core.Controllers;
 
 public abstract class CustomControllerBase : ControllerBase
 {
@@ -12,7 +13,7 @@ public abstract class CustomControllerBase : ControllerBase
         _notificador = notificador;
     }
 
-    protected IActionResult CustomResponse(object? result = null)
+    protected IActionResult CustomResponse(object result = null)
     {
         if (_notificador.TemErro())
         {

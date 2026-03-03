@@ -1,9 +1,10 @@
-﻿using Coldmart.Core.Notificacao;
+﻿using Coldmart.Core.Controllers;
+using Coldmart.Core.Notificacao;
 using Coldmart.Core.Services;
 using Coldmart.Core.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Coldmart.API.Controllers;
+namespace Coldmart.Core.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -11,7 +12,7 @@ public class AuthController : CustomControllerBase
 {
     private readonly IAutenticacaoService _autenticacaoService;
 
-    public AuthController(IAutenticacaoService autenticacaoService, INotificador notificador) 
+    public AuthController(IAutenticacaoService autenticacaoService, INotificador notificador)
         : base(notificador)
     {
         _autenticacaoService = autenticacaoService;

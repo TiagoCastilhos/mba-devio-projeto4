@@ -1,4 +1,5 @@
 ﻿using Coldmart.Core.Constants;
+using Coldmart.Core.Controllers;
 using Coldmart.Core.Notificacao;
 using Coldmart.Pagamentos.Business.Requests;
 using Coldmart.Pagamentos.Business.ViewModels;

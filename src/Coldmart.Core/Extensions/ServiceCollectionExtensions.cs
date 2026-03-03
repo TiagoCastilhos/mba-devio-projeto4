@@ -3,7 +3,6 @@ using System.Text;
 using Coldmart.Core.Contexts;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Options;
-using Coldmart.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,8 +42,6 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IUsuarioContext, UsuarioContext>();
         services.AddScoped<INotificador, Notificador>();
-
-        services.AddScoped<IAutenticacaoService, AutenticacaoService>();
 
         return services;
     }
