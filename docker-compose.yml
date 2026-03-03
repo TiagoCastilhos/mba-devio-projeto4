@@ -1,28 +1,80 @@
+version: '3.8'
+
 services:
   db:
-    image: sqlserver:latest
+    image: mcr.microsoft.com/mssql/server:latest
     environment:
       SA_PASSWORD: "YourStrong!Passw0rd"
       ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrong!Passw0rd" -Q "SELECT 1"
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:latest
     ports:
       - "5672:5672"
       - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  core: 
+  core:
+    build:
+      context: ./src/Coldmart.Core.API
+      dockerfile: Dockerfile
     ports:
       - "8082:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
   alunos:
+    build:
+      context: ./src/Coldmart.Alunos.API
+      dockerfile: Dockerfile
     ports:
       - "8083:8080"
+    depends_on:
+      core:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
   pagamentos:
+    build:
+      context: ./src/Coldmart.Pagamentos.API
+      dockerfile: Dockerfile
     ports:
       - "8084:8080"
+    depends_on:
+      core:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
   cursos:
+    build:
+      context: ./src/Coldmart.Cursos.API
+      dockerfile: Dockerfile
     ports:
       - "8085:8080"
-  
-network:
-  driver: overlay
+    depends_on:
+      core:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+networks:
+  default:
+    driver: bridge
