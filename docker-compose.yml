@@ -1,0 +1,28 @@
+services:
+  db:
+    image: sqlserver:latest
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+
+  rabbitmq:
+    image: rabbitmq:latest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  core: 
+    ports:
+      - "8082:8080"
+  alunos:
+    ports:
+      - "8083:8080"
+  pagamentos:
+    ports:
+      - "8084:8080"
+  cursos:
+    ports:
+      - "8085:8080"
+  
+network:
+  driver: overlay
