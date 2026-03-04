@@ -11,11 +11,15 @@ EXPOSE 8081
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["src/Coldmart.Pagamentos.API/Coldmart.Pagamentos.API.csproj", "src/Coldmart.Pagamentos.API/"]
-RUN dotnet restore "./src/Coldmart.Pagamentos.API/Coldmart.Pagamentos.API.csproj"
+COPY ["src/Coldmart.Core/Coldmart.Core.csproj", "Coldmart.Core/"]
+COPY ["src/Coldmart.Core.Data/Coldmart.Core.Data.csproj", "Coldmart.Core.Data/"]
+COPY ["src/Coldmart.Pagamentos.Domain/Coldmart.Pagamentos.Domain.csproj", "Coldmart.Pagamentos.Domain/"]
+COPY ["src/Coldmart.Pagamentos.Data/Coldmart.Pagamentos.Data.csproj", "Coldmart.Pagamentos.Data/"]
+COPY ["src/Coldmart.Pagamentos.Business/Coldmart.Pagamentos.Business.csproj", "Coldmart.Pagamentos.Business/"]
+COPY ["src/Coldmart.Pagamentos.API/Coldmart.Pagamentos.API.csproj", "Coldmart.Pagamentos.API/"]
+RUN dotnet restore "Coldmart.Pagamentos.API/Coldmart.Pagamentos.API.csproj"
 COPY . .
-WORKDIR "/src/src/Coldmart.Pagamentos.API"
+WORKDIR "/src/Coldmart.Pagamentos.API"
 RUN dotnet build "./Coldmart.Pagamentos.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage

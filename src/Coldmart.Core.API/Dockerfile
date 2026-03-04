@@ -11,9 +11,10 @@ EXPOSE 8081
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
-WORKDIR /src
-COPY ["Coldmart.Core.API/Coldmart.Core.API.csproj", "Coldmart.Core.API/"]
-RUN dotnet restore "src/Coldmart.Core.API/Coldmart.Core.API.csproj"
+COPY ["src/Coldmart.Core/Coldmart.Core.csproj", "Coldmart.Core/"]
+COPY ["src/Coldmart.Core.Data/Coldmart.Core.Data.csproj", "Coldmart.Core.Data/"]
+COPY ["src/Coldmart.Core.API/Coldmart.Core.API.csproj", "Coldmart.Core.API/"]
+RUN dotnet restore "Coldmart.Core.API/Coldmart.Core.API.csproj"
 COPY . .
 WORKDIR "/src/Coldmart.Core.API"
 RUN dotnet build "./Coldmart.Core.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
