@@ -1,16 +1,19 @@
 [Coldmart] - Plataforma de cursos online
 1. Apresentação
-Bem-vindo ao repositório do projeto [Coldmart]. Este projeto é uma entrega do MBA DevXpert Full Stack .NET e é referente ao módulo `Arquitetura, Modelagem e Qualidade de Software`. O objetivo principal é modelar um sistema de cursos com o uso de DDD, com separação dos contextos delimitados, bem como a comunicação entre os domínios através de eventos. O sistema é desenvolvido com a metodologia TDD, onde optei por usar o Xunit juntamente com as bibliotecas Moq e AutoFixture para facilitar a geração de modelos de teste.
+Bem-vindo ao repositório do projeto [Coldmart]. Este projeto é uma entrega do MBA DevXpert Full Stack .NET e é referente ao módulo `Construção de Aplicações Corporativas`. O objetivo principal é evoluir o projeto da entrega do módulo anterior, transformando a solução em microserviços e utilizando mensageria para eventos de integração.
 
 Autor(es)
 
-Tiago Henrique de Castilhos
+✅ Cristian Kruger Silva - @mr.krug3r
+✅ Gilberto Moshim Yabiku Junior - @junmoriyama3d
+✅ Tiago Henrique de Castilhos - @zsfnightmare
+✅ Victor Higaki - @victorhigaki
 
 2. Proposta do Projeto
 
 O projeto consiste em:
 
-API RESTful: Exposição dos casos de uso do sistema de gestão de cursos
+APIs RESTful: Exposição dos casos de uso do sistema de gestão de cursos
 
 Autenticação e Autorização: Implementação de controle de acesso, diferenciando administradores e alunos.
 
@@ -36,6 +39,8 @@ JWT (JSON Web Token) para autenticação na API
 
 Documentação da API: Swagger
 
+Containerização e virtualização: Docker
+
 4. Estrutura do Projeto
 
 A estrutura do projeto é organizada da seguinte forma:
@@ -48,19 +53,23 @@ Coldmart.{ Nome do contexto }.Data/ - Definição da camada de acesso a dados (c
 
 Coldmart.{ Nome do contexto }.Domain/ - Definição das entidades, enums e constantes do módulo.
 
-Coldmart.{ Nome do contexto }.{ Nome da camada }.Tests/ - Projeto de testes do respectivo projeto.
+Coldmart.{ Nome do contexto }.API/ - API RESTful do contexto.
 
-Coldmart.Api/ - API RESTful
+Coldmart.{ Nome do contexto }.{ Nome da camada }.Tests/ - Projeto de testes do respectivo projeto.
 
 README.md - Arquivo de Documentação do Projeto
 
 FEEDBACK.md - Arquivo para Consolidação dos Feedbacks
 
+Dockerfile - Instruções para o build das imagens da respectiva API
+
+docker-compose.yml - Arquivo de instrução para o ambiente virtualizado com as devidas dependências.
+
 .gitignore - Arquivo de para ignorar arquivos e pastas do Git
 
 5. Funcionalidades Implementadas
 
-Casos de uso especificados no documento do projeto, que pode ser acessado [aqui](./docs/Projeto-Terceiro-Modulo-Mba-DevXpert.pdf).
+Casos de uso especificados no documento do projeto, que pode ser acessado [aqui](./docs/Projeto-Quarto-Modulo-Mba-DevXpert.pdf).
 
 Autenticação e Autorização: Diferenciação entre alunos e administradores.
 
@@ -79,6 +88,8 @@ Visual Studio 2022 ou superior (ou qualquer IDE de sua preferência)
 
 Git
 
+Docker
+
 Passos para Execução
 
 Clone o Repositório:
@@ -86,22 +97,18 @@ Clone o Repositório:
 git clone https://github.com/seu-usuario/nome-do-repositorio.git
 cd nome-do-repositorio
 
-Caso deseje utilizar o SQLite como banco de dados, não se faz necessário configurar o SQL server.
+Uma vez na pasta raíz do projeto, rode o comando: `docker compose up`
 
-6.1 (Opcional - Uso do SQL server)
-Configuração do Banco de Dados:
-
-No arquivo appsettings.json, configure a string de conexão do SQL Server.
-Rode o projeto para que a configuração do Seed crie o banco e popule com os dados básicos.
+Os serviços e as dependências serão buildados (ou baixados dos respectivos registries).
 
 7. Instruções de Configuração
 JWT para API: As chaves de configuração do JWT estão no appsettings.json.
 Migrações do Banco de Dados: As migrações são gerenciadas pelo Entity Framework Core. Não é necessário aplicar devido a configuração do Seed de dados.
 
 8. Documentação da API
-A documentação da API está disponível através do Swagger. Após iniciar a API, um navegador deve abrir no endereço da documentação da API, ou então acesse em:
+A documentação de cada API está disponível através do Swagger. Após executar o docker compose, abra um navegador e então acesse em:
 
-https://localhost:7033/swagger
+https://localhost:{ Porta do serviço, especificado no docker-compose.yml }/swagger
 
 9. Avaliação
 
