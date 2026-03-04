@@ -43,7 +43,6 @@ public class CursosService : IRequestHandler<CriarCursoRequest>
             return;
         }
 
-        //ToDo: Adicionar suporte aos materiais da aula
         var aula = new Aula(curso, request.Aula.Titulo, TimeSpan.FromSeconds(request.Aula.DuracaoSegundos));
         await _cursosDbContext.Aulas.AddAsync(aula, cancellationToken);
 

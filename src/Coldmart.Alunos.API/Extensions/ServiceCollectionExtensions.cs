@@ -1,0 +1,29 @@
+﻿using System.Diagnostics.CodeAnalysis;
+using Coldmart.Alunos.Business.Requests;
+using Coldmart.Alunos.Data.Extensions;
+using Coldmart.Core.Data.Extensions;
+using Coldmart.Core.Extensions;
+
+namespace Coldmart.Alunos.API.Extensions;
+
+[ExcludeFromCodeCoverage]
+public static class ServiceCollectionExtensions
+{
+    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
+    {
+        services
+            .AddCoreData(configuration, environment.IsDevelopment())
+            .AddAlunosData(configuration, environment.IsDevelopment());
+
+        services.AddMediatR(cfg =>
+        {
+            cfg.LicenseKey = "eyJhbGciOiJSUzI1NiIsImtpZCI6Ikx1Y2t5UGVubnlTb2Z0d2FyZUxpY2Vuc2VLZXkvYmJiMTNhY2I1OTkwNGQ4OWI0Y2IxYzg1ZjA4OGNjZjkiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2x1Y2t5cGVubnlzb2Z0d2FyZS5jb20iLCJhdWQiOiJMdWNreVBlbm55U29mdHdhcmUiLCJleHAiOiIxNzkwMzgwODAwIiwiaWF0IjoiMTc1ODkxNDQ2NiIsImFjY291bnRfaWQiOiIwMTk5ODc3ODZjZGU3MWIxYjFhODMyMDVhZDkyZjRmYyIsImN1c3RvbWVyX2lkIjoiY3RtXzAxazYzcWhuMzIzNDFwbmMyMDV3MHl3OTg3Iiwic3ViX2lkIjoiLSIsImVkaXRpb24iOiIwIiwidHlwZSI6IjIifQ.hjYvS596Jk0YMfEHjVtAko70pxTrPo4-CRoJPnyYESjo6p0fkLpUJILMFyyONcTSAiWYZ5p_cpsgcpWQ-esvZYzFDH-GU1MMiozYHHZo4XyFma3QNfbqUURmeTh_WTb_6RkZsGWI3NDxz6_L3pjVfMoTzWffSElvzGOKF_1DoKJ4lWzN0DB9JzVH59BmE3qIF5IcuKHu0w9OEpEmEgnnCXOOhb8yFJBhbD4RNpqGrDj1tmbUcFMMIza_ldhJ2ect8aO6NkwYvpdTQ_p02SkJjEP5o3UnvMmIWWekFHEFN08EgY9IpjigoNJw-Ot0lVsraAwldkRWLi7bfcSmcomHYw";
+            cfg.RegisterServicesFromAssemblyContaining<MatricularAoCursoRequest>();
+        });
+
+        services
+            .AddCoreServices(configuration);
+
+        return services;
+    }
+}

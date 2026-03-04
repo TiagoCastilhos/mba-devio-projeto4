@@ -1,11 +1,12 @@
 ﻿using Coldmart.Alunos.Business.Requests;
 using Coldmart.Alunos.Business.ViewModels;
+using Coldmart.Core.Controllers;
 using Coldmart.Core.Notificacao;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Coldmart.API.Controllers;
+namespace Coldmart.Alunos.API.Controllers;
 
 [ApiController, Authorize]
 [Route("api/[controller]")]
