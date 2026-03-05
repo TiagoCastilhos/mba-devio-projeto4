@@ -1,18 +1,78 @@
-version: '3.8'
-
 services:
-  db:
-    image: mcr.microsoft.com/mssql/server:latest
+  core:
+    build:
+      dockerfile: ./src/Coldmart.Core.API/Dockerfile
+    ports:
+      - "8082:8080"
+    expose:
+      - 8082
+    depends_on:
+      db:
+        condition: service_started
+      pagamentos:
+        condition: service_started
     environment:
-      SA_PASSWORD: "YourStrong!Passw0rd"
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  alunos:
+    build:
+      dockerfile: ./src/Coldmart.Alunos.API/Dockerfile
+    ports:
+      - "8083:8080"
+    expose:
+      - 8083
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      db:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  pagamentos:
+    build:
+      dockerfile: ./src/Coldmart.Pagamentos.API/Dockerfile
+    ports:
+      - "8084:8080"
+    expose:
+      - 8084
+    depends_on:
+      cursos:
+        condition: service_started
+      rabbitmq:
+        condition: service_healthy
+      db:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+
+  cursos:
+    build:
+      dockerfile: ./src/Coldmart.Cursos.API/Dockerfile
+    ports:
+      - "8085:8080"
+    expose:
+      - 8085
+    depends_on:
+      alunos:
+        condition: service_started
+      db:
+        condition: service_started
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+  
+  db:
+    container_name: coldmart-db
+    build:
+      dockerfile: Dockerfile
+      context: ./sql
+    environment:
+      SA_PASSWORD: "Strong@Passw0rd"
       ACCEPT_EULA: "Y"
     ports:
       - "1433:1433"
-    healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "YourStrong!Passw0rd" -Q "SELECT 1"
-      interval: 10s
-      timeout: 5s
-      retries: 5
+    expose:
+      - 1433
 
   rabbitmq:
     image: rabbitmq:4-management
@@ -27,68 +87,6 @@ services:
       timeout: 5s
       retries: 5
 
-  core:
-    build:
-      dockerfile: ./src/Coldmart.Core.API/Dockerfile
-    ports:
-      - "8082:8080"
-    expose:
-      - 8082
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-
-  alunos:
-    build:
-      dockerfile: ./src/Coldmart.Alunos.API/Dockerfile
-    ports:
-      - "8083:8080"
-    expose:
-      - 8083
-    depends_on:
-      core:
-        condition: service_started
-      rabbitmq:
-        condition: service_healthy
-      db:
-        condition: service_healthy
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-
-  pagamentos:
-    build:
-      dockerfile: ./src/Coldmart.Pagamentos.API/Dockerfile
-    ports:
-      - "8084:8080"
-    expose:
-      - 8084
-    depends_on:
-      alunos: #Feito para evitar concorrencia com as migracoes
-        condition: service_started
-      rabbitmq:
-        condition: service_healthy
-      db:
-        condition: service_healthy
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-
-  cursos:
-    build:
-      dockerfile: ./src/Coldmart.Cursos.API/Dockerfile
-    ports:
-      - "8085:8080"
-    expose:
-      - 8085
-    depends_on:
-      pagamentos: #Feito para evitar concorrencia com as migracoes
-        condition: service_started
-      db:
-        condition: service_healthy
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-
 networks:
-  default:
-    driver: bridge
+  net:
+    driver: overlay    
