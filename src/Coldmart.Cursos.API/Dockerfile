@@ -16,19 +16,19 @@ COPY ["src/Coldmart.Core.Data/Coldmart.Core.Data.csproj", "Coldmart.Core.Data/"]
 COPY ["src/Coldmart.Cursos.Domain/Coldmart.Cursos.Domain.csproj", "Coldmart.Cursos.Domain/"]
 COPY ["src/Coldmart.Cursos.Data/Coldmart.Cursos.Data.csproj", "Coldmart.Cursos.Data/"]
 COPY ["src/Coldmart.Cursos.Business/Coldmart.Cursos.Business.csproj", "Coldmart.Cursos.Business/"]
-COPY ["src/Coldmart.Cursos.API/Coldmart.Cursos.API.csproj", "Coldmart.Cursos.API/"]
-RUN dotnet restore "Coldmart.Cursos.API/Coldmart.Cursos.API.csproj"
+COPY ["src/Coldmart.Cursos.Api/Coldmart.Cursos.Api.csproj", "Coldmart.Cursos.Api/"]
+RUN dotnet restore "Coldmart.Cursos.Api/Coldmart.Cursos.Api.csproj"
 COPY . .
-WORKDIR "/src/Coldmart.Cursos.API"
-RUN dotnet build "./Coldmart.Cursos.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Coldmart.Cursos.Api"
+RUN dotnet build "./Coldmart.Cursos.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Coldmart.Cursos.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Coldmart.Cursos.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Coldmart.Cursos.API.dll"]
+ENTRYPOINT ["dotnet", "Coldmart.Cursos.Api.dll"]
