@@ -11,11 +11,8 @@ public static class DbContextOptionsExtensions
     {
         // O ideal não seria usar lazy loading para todos os contextos da aplicação, apenas onde é necessário.
         // Decidi acidionar em todos para simplificar o desenvolvimento neste projeto.
-        options.UseLazyLoadingProxies();
-
-        if (isDevelopment)
-            options.UseSqlite(configuration.GetConnectionString("ColdmartDb"));
-        else
-            options.UseSqlServer(configuration.GetConnectionString("ColdmartDb"));
+        options
+            .UseLazyLoadingProxies()
+            .UseSqlServer(configuration.GetConnectionString("ColdmartDb"));
     }
 }

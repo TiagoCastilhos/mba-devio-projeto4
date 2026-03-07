@@ -6,7 +6,7 @@ namespace Coldmart.Pagamentos.API.Extensions;
 
 public static class WebApplicationExtensions
 {
-    public static async Task<WebApplication> AplicarMigracoesAsync(this WebApplication app, IWebHostEnvironment environment)
+    public static async Task<WebApplication> AplicarMigracoesAsync(this WebApplication app)
     {
         await using var scope = app.Services.CreateAsyncScope();
 
