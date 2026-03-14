@@ -1,8 +1,10 @@
 ﻿using Coldmart.Core.Constants;
+using Coldmart.Core.Contracts;
 using Coldmart.Core.Controllers;
 using Coldmart.Core.Notificacao;
 using Coldmart.Pagamentos.Business.Requests;
 using Coldmart.Pagamentos.Business.ViewModels;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,11 +16,13 @@ namespace Coldmart.API.Controllers;
 public class PagamentosController : CustomControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public PagamentosController(IMediator mediator, INotificador notificador)
+    public PagamentosController(IMediator mediator, IPublishEndpoint publishEndpoint, INotificador notificador)
         : base(notificador)
     {
         _mediator = mediator;
+        _publishEndpoint = publishEndpoint;
     }
 
     [HttpPost("")]
@@ -29,6 +33,8 @@ public class PagamentosController : CustomControllerBase
         {
             Pagamento = pagamento
         }, HttpContext.RequestAborted);
+
+        await _publishEndpoint.Publish(new PagamentoRealizado { MatriculaId = pagamento.MatriculaId });
 
         return CustomResponse();
     }
