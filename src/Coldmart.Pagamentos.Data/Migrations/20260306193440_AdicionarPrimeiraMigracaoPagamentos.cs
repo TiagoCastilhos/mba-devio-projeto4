@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Coldmart.Pagamentos.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class MigrationInicialPagamentos : Migration
+    public partial class AdicionarPrimeiraMigracaoPagamentos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +15,13 @@ namespace Coldmart.Pagamentos.Data.Migrations
                 name: "DadosCartao",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    NumeroCartao = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    NomeTitular = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
-                    DataValidade = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    CodigoSeguranca = table.Column<string>(type: "TEXT", maxLength: 10, nullable: false),
-                    DataCriacao = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    Deletado = table.Column<bool>(type: "INTEGER", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    NumeroCartao = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    NomeTitular = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
+                    DataValidade = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CodigoSeguranca = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    DataCriacao = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,14 +32,14 @@ namespace Coldmart.Pagamentos.Data.Migrations
                 name: "Pagamento",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CartaoId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Status = table.Column<string>(type: "TEXT", maxLength: 20, nullable: false),
-                    DataAtualizacao = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CartaoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    DataAtualizacao = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MatriculaId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    DataCriacao = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
-                    Deletado = table.Column<bool>(type: "INTEGER", nullable: false)
+                    MatriculaId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DataCriacao = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Deletado = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

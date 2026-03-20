@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Coldmart.Alunos.Domain;
 using Coldmart.Core.Data.Configurations;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Coldmart.Alunos.Data.Configurations;
@@ -20,7 +21,8 @@ internal sealed class HistoricoAlunoConfiguration : EntityTypeConfiguration<Hist
         builder
             .HasOne<Curso>()
             .WithMany()
-            .HasForeignKey(ha => ha.CursoId);
+            .HasForeignKey(ha => ha.CursoId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder
             .HasOne<Aula>()

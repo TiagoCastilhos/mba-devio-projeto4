@@ -108,7 +108,7 @@ Migrações do Banco de Dados: As migrações são gerenciadas pelo Entity Frame
 8. Documentação da API
 A documentação de cada API está disponível através do Swagger. Após executar o docker compose, abra um navegador e então acesse em:
 
-https://localhost:{ Porta do serviço, especificado no docker-compose.yml }/swagger
+http://localhost:{ Porta do serviço, especificado no docker-compose.yml }/swagger
 
 9. Avaliação
 

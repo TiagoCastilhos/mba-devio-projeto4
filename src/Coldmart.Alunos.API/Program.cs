@@ -64,11 +64,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coldmart Alunos API v1"));
-}
+app.UseSwagger();
+app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Coldmart Alunos API v1"));
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
@@ -76,7 +73,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-await app.AplicarMigracoesAsync(builder.Environment);
+await app.AplicarMigracoesAsync();
 
 await app.SeedBancoDeDadosAsync();
 await app.RunAsync();
