@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Coldmart.Cursos.Business.Services;
 
-public class CursosService : IRequestHandler<CriarCursoRequest>
+public class CursosService : IRequestHandler<CriarCursoRequest>, IRequestHandler<AdicionarAulaRequest>
 {
     private readonly ICursosDbContext _cursosDbContext;
     private readonly INotificador _notificador;
