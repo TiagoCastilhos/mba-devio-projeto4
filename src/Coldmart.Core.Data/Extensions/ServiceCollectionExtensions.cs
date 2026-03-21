@@ -10,7 +10,7 @@ namespace Coldmart.Core.Data.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCoreData(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
+    public static IServiceCollection AddCoreData(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddIdentityCore<IdentityUser>(ConfigureIdentityOptions)
@@ -20,9 +20,14 @@ public static class ServiceCollectionExtensions
 
         services.AddDbContext<ICoreDbContext, CoreDbContext>(options =>
         {
-            options.ConfigureDbContextOptions(configuration, isDevelopment);
+            options.ConfigureDbContextOptions(configuration);
         });
 
+        return services;
+    }
+
+    public static IServiceCollection AddCoreSeeder(this IServiceCollection services)
+    {
         services.AddScoped<IDbSeeder, DbSeeder>();
         services.AddScoped<IDbContextSeeder, CoreDbContextSeeder>();
 

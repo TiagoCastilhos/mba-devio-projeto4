@@ -4,7 +4,7 @@ using Coldmart.Pagamentos.API.Extensions;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.ConfigurarInjecaoDependencia(builder.Configuration, builder.Environment);
+builder.Services.ConfigurarInjecaoDependencia(builder.Configuration);
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

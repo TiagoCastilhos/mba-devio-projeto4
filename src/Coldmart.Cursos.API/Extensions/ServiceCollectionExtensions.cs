@@ -9,11 +9,11 @@ namespace Coldmart.Cursos.API.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
+    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddCoreData(configuration, environment.IsDevelopment())
-            .AddCursosData(configuration, environment.IsDevelopment());
+            .AddCoreData(configuration)
+            .AddCursosData(configuration);
 
         services.AddMediatR(cfg =>
         {

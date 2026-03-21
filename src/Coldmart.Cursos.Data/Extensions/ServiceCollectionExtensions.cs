@@ -11,13 +11,14 @@ namespace Coldmart.Cursos.Data.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCursosData(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
+    public static IServiceCollection AddCursosData(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<ICursosDbContext, CursosDbContext>(options =>
         {
-            options.ConfigureDbContextOptions(configuration, isDevelopment);
+            options.ConfigureDbContextOptions(configuration);
         });
 
+        services.AddScoped<IDbSeeder, DbSeeder>();
         services.AddScoped<IDbContextSeeder, CursosDbContextSeeder>();
 
         return services;
