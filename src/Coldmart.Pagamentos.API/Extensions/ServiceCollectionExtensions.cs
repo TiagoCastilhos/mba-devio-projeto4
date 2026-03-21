@@ -9,11 +9,11 @@ namespace Coldmart.Pagamentos.API.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
+    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddCoreData(configuration, environment.IsDevelopment())
-            .AddPagamentosData(configuration, environment.IsDevelopment());
+            .AddCoreData(configuration)
+            .AddPagamentosData(configuration);
 
         services.AddMediatR(cfg =>
         {

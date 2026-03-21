@@ -11,13 +11,14 @@ namespace Coldmart.Alunos.Data.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAlunosData(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
+    public static IServiceCollection AddAlunosData(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<IAlunosDbContext, AlunosDbContext>(options =>
         {
-            options.ConfigureDbContextOptions(configuration, isDevelopment);
+            options.ConfigureDbContextOptions(configuration);
         });
 
+        services.AddScoped<IDbSeeder, DbSeeder>();
         services.AddScoped<IDbContextSeeder, AlunosDbContextSeeder>();
 
         return services;

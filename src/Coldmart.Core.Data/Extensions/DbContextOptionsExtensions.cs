@@ -7,7 +7,7 @@ namespace Coldmart.Core.Data.Extensions;
 [ExcludeFromCodeCoverage]
 public static class DbContextOptionsExtensions
 {
-    public static void ConfigureDbContextOptions(this DbContextOptionsBuilder options, IConfiguration configuration, bool isDevelopment)
+    public static void ConfigureDbContextOptions(this DbContextOptionsBuilder options, IConfiguration configuration)
     {
         // O ideal não seria usar lazy loading para todos os contextos da aplicação, apenas onde é necessário.
         // Decidi acidionar em todos para simplificar o desenvolvimento neste projeto.
