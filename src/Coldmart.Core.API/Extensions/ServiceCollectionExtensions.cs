@@ -8,13 +8,14 @@ namespace Coldmart.Core.API.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment environment)
+    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddCoreData(configuration, environment.IsDevelopment());
+            .AddCoreData(configuration);
 
         services
-            .AddCoreServices(configuration);
+            .AddCoreServices(configuration)
+            .AddCoreSeeder();
 
         services.AddScoped<IAutenticacaoService, AutenticacaoService>();
 

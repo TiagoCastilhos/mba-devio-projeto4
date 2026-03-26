@@ -5,7 +5,7 @@ using MassTransit;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.ConfigurarInjecaoDependencia(builder.Configuration, builder.Environment);
+builder.Services.ConfigurarInjecaoDependencia(builder.Configuration);
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
