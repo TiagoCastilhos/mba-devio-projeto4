@@ -34,8 +34,6 @@ public class PagamentosController : CustomControllerBase
             Pagamento = pagamento
         }, HttpContext.RequestAborted);
 
-        await _publishEndpoint.Publish(new PagamentoRealizado { MatriculaId = pagamento.MatriculaId });
-
         return CustomResponse();
     }
 

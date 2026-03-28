@@ -7,15 +7,17 @@ namespace Coldmart.Alunos.API.Consumers;
 
 public class PagamentoRealizadoConsumer : IConsumer<PagamentoRealizado>
 {
-    private readonly AlunosDbContext _dbContext;
+    private readonly IAlunosDbContext _dbContext;
 
-    public PagamentoRealizadoConsumer(AlunosDbContext dbContext)
+    public PagamentoRealizadoConsumer(IAlunosDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
     public async Task Consume(ConsumeContext<PagamentoRealizado> context)
     {
+        Console.WriteLine("--> Consuming Pagamento Realizado");
+
         var matricula = await _dbContext.Matriculas
             .FirstAsync(m => m.Id == context.Message.MatriculaId);
         matricula.Iniciar();
