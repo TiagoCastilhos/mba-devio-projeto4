@@ -1,4 +1,5 @@
 ﻿using AutoFixture.Xunit2;
+using Coldmart.Core.Contracts;
 using Coldmart.Core.Eventos;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Tests.Attributes;
@@ -8,6 +9,7 @@ using Coldmart.Pagamentos.Business.Services;
 using Coldmart.Pagamentos.Business.ViewModels;
 using Coldmart.Pagamentos.Data.Contexts;
 using Coldmart.Pagamentos.Domain;
+using MassTransit;
 using MediatR;
 using Moq;
 
@@ -71,7 +73,7 @@ public class PagamentosServiceTests
     public async Task HandleAprovarPagamento_FornecidoPagamento_DeveAtualizar(
         [Frozen] Mock<IPagamentosDbContext> dbContext,
         [Frozen] Mock<INotificador> notificador,
-        [Frozen] Mock<IMediator> mediator,
+        [Frozen] Mock<IPublishEndpoint> publishEndpoint,
         Pagamento pagamento,
         PagamentosService pagamentosService,
         AprovarPagamentoRequest request,
@@ -88,7 +90,7 @@ public class PagamentosServiceTests
         dbContext.Verify(db => db.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         Assert.Equal(StatusPagamento.Aprovado, pagamento.Status);
-        mediator.Verify(m => m.Publish(It.IsAny<PagamentoRealizadoEvento>(), It.IsAny<CancellationToken>()), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<PagamentoRealizado>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Theory, AutoDomainData]
@@ -117,7 +119,7 @@ public class PagamentosServiceTests
     public async Task HandleCancelarPagamento_FornecidoPagamento_DeveAtualizar(
         [Frozen] Mock<IPagamentosDbContext> dbContext,
         [Frozen] Mock<INotificador> notificador,
-        [Frozen] Mock<IMediator> mediator,
+        [Frozen] Mock<IPublishEndpoint> publishEndpoint,
         Pagamento pagamento,
         PagamentosService pagamentosService,
         CancelarPagamentoRequest request,
@@ -134,7 +136,7 @@ public class PagamentosServiceTests
         dbContext.Verify(db => db.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         Assert.Equal(StatusPagamento.Cancelado, pagamento.Status);
-        mediator.Verify(m => m.Publish(It.IsAny<PagamentoCanceladoEvento>(), It.IsAny<CancellationToken>()), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<PagamentoCancelado>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Theory, AutoDomainData]

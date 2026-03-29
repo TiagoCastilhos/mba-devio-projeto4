@@ -17,14 +17,12 @@ public class PagamentosService :
 {
     private readonly IPagamentosDbContext _dbContext;
     private readonly INotificador _notificador;
-    private readonly IMediator _mediator;
     private readonly IPublishEndpoint _publishEndpoint;
 
-    public PagamentosService(IPagamentosDbContext dbContext, INotificador notificador, IMediator mediator, IPublishEndpoint publishEndpoint)
+    public PagamentosService(IPagamentosDbContext dbContext, INotificador notificador, IPublishEndpoint publishEndpoint)
     {
         _dbContext = dbContext;
         _notificador = notificador;
-        _mediator = mediator;
         _publishEndpoint = publishEndpoint;
     }
 
@@ -79,6 +77,6 @@ public class PagamentosService :
         pagamento.Cancelar();
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        await _mediator.Publish(new PagamentoCanceladoEvento { MatriculaId = pagamento.MatriculaId }, cancellationToken);
+        await _publishEndpoint.Publish(new PagamentoCanceladoEvento { MatriculaId = pagamento.MatriculaId }, cancellationToken);
     }
 }
