@@ -1,7 +1,9 @@
+using Coldmart.Alunos.API.Consumers;
+using Coldmart.Alunos.API.Extensions;
+using MassTransit;
+using Microsoft.OpenApi.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using Coldmart.Alunos.API.Extensions;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigurarInjecaoDependencia(builder.Configuration);
@@ -13,6 +15,24 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
+
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumersFromNamespaceContaining<PagamentoRealizadoConsumer>();
+
+    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("alunos", false));
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMq:Host"], "/", h =>
+        {
+            h.Username(builder.Configuration.GetValue("RabbitMq:Username", "coldmart"));
+            h.Password(builder.Configuration.GetValue("RabbitMq:Password", "coldmart"));
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+});
+
 
 builder.Services.AddSwaggerGen(c =>
 {

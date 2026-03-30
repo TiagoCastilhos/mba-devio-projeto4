@@ -4,6 +4,7 @@ using Coldmart.Alunos.Domain;
 using Coldmart.Core.Contexts;
 using Coldmart.Core.Eventos;
 using Coldmart.Core.Notificacao;
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,14 +15,14 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
     private readonly IAlunosDbContext _dbContext;
     private readonly IUsuarioContext _usuarioContext;
     private readonly INotificador _notificador;
-    private readonly IMediator _mediator;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public AlunosService(IAlunosDbContext dbContext, IUsuarioContext usuarioContext, INotificador notificador, IMediator mediator)
+    public AlunosService(IAlunosDbContext dbContext, IUsuarioContext usuarioContext, INotificador notificador, IPublishEndpoint publishEndpoint)
     {
         _dbContext = dbContext;
         _usuarioContext = usuarioContext;
         _notificador = notificador;
-        _mediator = mediator;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task Handle(MatricularAoCursoRequest request, CancellationToken cancellationToken)
@@ -46,7 +47,7 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
         await _dbContext.Matriculas.AddAsync(matricula, cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-        await _mediator.Publish(new MatriculaRealizadaEvento { AlunoId = aluno.Id, CursoId = curso.Id }, cancellationToken);
+        await _publishEndpoint.Publish(new MatriculaRealizada { AlunoId = aluno.Id, CursoId = curso.Id }, cancellationToken);
     }
 
     public async Task Handle(RealizarAulaRequest request, CancellationToken cancellationToken)
@@ -71,6 +72,6 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
         await _dbContext.HistoricosAlunos.AddAsync(historicoAluno, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        await _mediator.Publish(new AulaRealizadaEvento { AlunoId = aluno.Id, AulaId = aula.Id, CursoId = aula.CursoId }, cancellationToken);
+        await _publishEndpoint.Publish(new AulaRealizada { AlunoId = aluno.Id, AulaId = aula.Id, CursoId = aula.CursoId }, cancellationToken);
     }
 }

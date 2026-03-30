@@ -12,6 +12,6 @@ public interface IAlunosDbContext
     DbSet<Curso> Cursos { get; }
     DbSet<Aula> Aulas { get; }
     DbSet<HistoricoAluno> HistoricosAlunos { get; }
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     DatabaseFacade Database { get; }
 }

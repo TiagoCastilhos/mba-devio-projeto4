@@ -8,6 +8,7 @@ using Coldmart.Core.Eventos;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Tests.Attributes;
 using Coldmart.Core.Tests.Extensions;
+using MassTransit;
 using MediatR;
 using Moq;
 
@@ -20,7 +21,7 @@ public class AlunosServiceTests
         [Frozen] Mock<IAlunosDbContext> dbContext,
         [Frozen] Mock<IUsuarioContext> usuarioContext,
         [Frozen] Mock<INotificador> notificador,
-        [Frozen] Mock<IMediator> mediator,
+        [Frozen] Mock<IPublishEndpoint> publishEndpoint,
         Aluno aluno, Curso curso, List<Matricula> matriculas,
         AlunosService service,
         MatricularAoCursoRequest request,
@@ -43,7 +44,7 @@ public class AlunosServiceTests
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
         matriculasDbSet.Verify(m => m.AddAsync(It.IsAny<Matricula>(), cancellationToken), Times.Once);
-        mediator.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizada>(), cancellationToken), Times.Once);
     }
 
     [Theory, AutoDomainData]
@@ -104,7 +105,7 @@ public class AlunosServiceTests
         [Frozen] Mock<IAlunosDbContext> dbContext,
         [Frozen] Mock<IUsuarioContext> usuarioContext,
         [Frozen] Mock<INotificador> notificador,
-        [Frozen] Mock<IMediator> mediator,
+        [Frozen] Mock<IPublishEndpoint> publishEndpoint,
         Aluno aluno, Aula aula, List<HistoricoAluno> historicosAlunos,
         AlunosService service,
         RealizarAulaRequest request,
@@ -126,7 +127,7 @@ public class AlunosServiceTests
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
         historicosAlunosDbSet.Verify(m => m.AddAsync(It.IsAny<HistoricoAluno>(), cancellationToken), Times.Once);
-        mediator.Verify(m => m.Publish(It.IsAny<AulaRealizadaEvento>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<AulaRealizada>(), cancellationToken), Times.Once);
     }
 
     [Theory, AutoDomainData]

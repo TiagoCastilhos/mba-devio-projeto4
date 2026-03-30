@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Coldmart.Core\Coldmart.Core.csproj" />
     <ProjectReference Include="..\Coldmart.Pagamentos.Data\Coldmart.Pagamentos.Data.csproj" />
   </ItemGroup>
