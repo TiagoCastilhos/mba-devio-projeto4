@@ -16,8 +16,6 @@ public class PagamentoRealizadoConsumer : IConsumer<PagamentoRealizado>
 
     public async Task Consume(ConsumeContext<PagamentoRealizado> context)
     {
-        Console.WriteLine("--> Consuming Pagamento Realizado");
-
         var matricula = await _dbContext.Matriculas
             .FirstAsync(m => m.Id == context.Message.MatriculaId);
         matricula.Iniciar();

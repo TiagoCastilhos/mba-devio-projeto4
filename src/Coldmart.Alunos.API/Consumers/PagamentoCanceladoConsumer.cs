@@ -16,8 +16,6 @@ public class PagamentoCanceladoConsumer : IConsumer<PagamentoCancelado>
 
     public async Task Consume(ConsumeContext<PagamentoCancelado> context)
     {
-        Console.WriteLine("--> Consuming Pagamento Cancelado");
-
         var matricula = await _dbContext.Matriculas
             .FirstAsync(m => m.Id == context.Message.MatriculaId);
 
