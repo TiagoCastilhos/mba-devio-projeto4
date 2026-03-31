@@ -13,6 +13,7 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 COPY ["src/Coldmart.Core/Coldmart.Core.csproj", "Coldmart.Core/"]
 COPY ["src/Coldmart.Core.Data/Coldmart.Core.Data.csproj", "Coldmart.Core.Data/"]
+COPY ["src/Coldmart.Auth.Data/Coldmart.Auth.Data.csproj", "Coldmart.Auth.Data/"]
 COPY ["src/Coldmart.Alunos.Data/Coldmart.Alunos.Data.csproj", "Coldmart.Alunos.Data/"]
 COPY ["src/Coldmart.Alunos.Domain/Coldmart.Alunos.Domain.csproj", "Coldmart.Alunos.Domain/"]
 COPY ["src/Coldmart.Alunos.Business/Coldmart.Alunos.Business.csproj", "Coldmart.Alunos.Business/"]

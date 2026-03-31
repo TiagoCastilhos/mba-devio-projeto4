@@ -1,13 +1,13 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Coldmart.Auth.Business.ViewModels;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Options;
-using Coldmart.Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Coldmart.Core.Services;
+namespace Coldmart.Auth.Business.Services;
 
 public class AutenticacaoService : IAutenticacaoService
 {

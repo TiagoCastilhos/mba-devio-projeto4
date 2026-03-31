@@ -1,19 +1,20 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Coldmart.Core.Constants;
-using Coldmart.Core.Data.Contexts;
+using Coldmart.Auth.Data.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Coldmart.Core.Data.Seeders;
 
-namespace Coldmart.Core.Data.Seeders;
+namespace Coldmart.Auth.Data.Seeders;
 
 [ExcludeFromCodeCoverage]
-public class CoreDbContextSeeder : IDbContextSeeder
+public class AuthDbContextSeeder : IDbContextSeeder
 {
     private readonly UserManager<IdentityUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
-    private readonly ICoreDbContext _coreDbContext;
+    private readonly IAuthDbContext _coreDbContext;
 
-    public CoreDbContextSeeder(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ICoreDbContext coreDbContext)
+    public AuthDbContextSeeder(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IAuthDbContext coreDbContext)
     {
         _userManager = userManager;
         _roleManager = roleManager;

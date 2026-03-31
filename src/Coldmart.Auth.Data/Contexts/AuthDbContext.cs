@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Coldmart.Core.Data.Contexts;
+namespace Coldmart.Auth.Data.Contexts;
 
 [ExcludeFromCodeCoverage]
-public class CoreDbContext : IdentityDbContext, ICoreDbContext
+public class AuthDbContext : IdentityDbContext, IAuthDbContext
 {
-    public CoreDbContext(DbContextOptions<CoreDbContext> options)
+    public AuthDbContext(DbContextOptions<AuthDbContext> options)
         : base(options)
     {
     }

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Coldmart.Core.Data.Migrations
+namespace Coldmart.Auth.Data.Migrations
 {
     /// <inheritdoc />
     public partial class AdicionarPrimeiraMigracaoCore : Migration

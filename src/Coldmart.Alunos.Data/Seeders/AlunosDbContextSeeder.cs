@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Coldmart.Alunos.Data.Contexts;
 using Coldmart.Alunos.Domain;
-using Coldmart.Core.Data.Contexts;
+using Coldmart.Auth.Data.Contexts;
 using Coldmart.Core.Data.Seeders;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +11,9 @@ namespace Coldmart.Alunos.Data.Seeders;
 internal class AlunosDbContextSeeder : IDbContextSeeder
 {
     private readonly IAlunosDbContext _alunosDbContext;
-    private readonly ICoreDbContext _coreDbContext;
+    private readonly IAuthDbContext _coreDbContext;
 
-    public AlunosDbContextSeeder(IAlunosDbContext alunosDbContext, ICoreDbContext coreDbContext)
+    public AlunosDbContextSeeder(IAlunosDbContext alunosDbContext, IAuthDbContext coreDbContext)
     {
         _alunosDbContext = alunosDbContext;
         _coreDbContext = coreDbContext;

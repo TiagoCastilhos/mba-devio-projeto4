@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Coldmart.Cursos.Domain\Coldmart.Cursos.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Coldmart.Auth.Business\Coldmart.Auth.Business.csproj" />
     <ProjectReference Include="..\Coldmart.Core.Tests\Coldmart.Core.Tests.csproj" />
   </ItemGroup>
 
