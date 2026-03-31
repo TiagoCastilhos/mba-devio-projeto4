@@ -136,7 +136,7 @@ public class PagamentosServiceTests
         dbContext.Verify(db => db.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         Assert.Equal(StatusPagamento.Cancelado, pagamento.Status);
-        publishEndpoint.Verify(m => m.Publish(It.IsAny<PagamentoCancelado>(), It.IsAny<CancellationToken>()), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<PagamentoCanceladoEvento>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Theory, AutoDomainData]

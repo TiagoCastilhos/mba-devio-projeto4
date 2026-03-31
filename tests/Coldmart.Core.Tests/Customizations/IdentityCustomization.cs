@@ -1,6 +1,5 @@
 ﻿using AutoFixture;
-using Coldmart.Core.Services;
-using Coldmart.Core.ViewModels;
+using Coldmart.Auth.Business.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Moq;

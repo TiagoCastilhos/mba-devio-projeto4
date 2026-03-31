@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Coldmart.Core.Data.Contexts;
+namespace Coldmart.Auth.Data.Contexts;
 
-public interface ICoreDbContext
+public interface IAuthDbContext
 {
     DbSet<IdentityUser> Users { get; }
     DbSet<IdentityRole> Roles { get; }

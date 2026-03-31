@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Coldmart.Core.ViewModels;
+namespace Coldmart.Auth.Business.ViewModels;
 
 public class LogarViewModel
 {

@@ -1,15 +1,15 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using AutoFixture;
 using AutoFixture.Xunit2;
+using Coldmart.Auth.Business.Services;
+using Coldmart.Auth.Business.ViewModels;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Options;
-using Coldmart.Core.Services;
 using Coldmart.Core.Tests.Attributes;
-using Coldmart.Core.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Moq;
 
-namespace Coldmart.Core.Tests.Services;
+namespace Coldmart.Auth.Business.Tests.Services;
 
 [ExcludeFromCodeCoverage]
 public class AutenticacaoServiceTests

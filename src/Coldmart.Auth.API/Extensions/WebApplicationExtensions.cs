@@ -1,8 +1,8 @@
-﻿using Coldmart.Core.Data.Contexts;
+﻿using Coldmart.Auth.Data.Contexts;
 using Coldmart.Core.Data.Seeders;
 using Microsoft.EntityFrameworkCore;
 
-namespace Coldmart.Core.API.Extensions;
+namespace Coldmart.Auth.API.Extensions;
 
 public static class WebApplicationExtensions
 {
@@ -10,7 +10,7 @@ public static class WebApplicationExtensions
     {
         await using var scope = app.Services.CreateAsyncScope();
 
-        var coreDbContext = scope.ServiceProvider.GetRequiredService<ICoreDbContext>();
+        var coreDbContext = scope.ServiceProvider.GetRequiredService<IAuthDbContext>();
         await coreDbContext.Database.MigrateAsync(CancellationToken.None);
 
         return app;

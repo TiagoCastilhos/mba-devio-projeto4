@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Coldmart.Core.Data.Extensions;
+using Coldmart.Auth.Business.Services;
+using Coldmart.Auth.Data.Extensions;
 using Coldmart.Core.Extensions;
-using Coldmart.Core.Services;
 
-namespace Coldmart.Core.API.Extensions;
+namespace Coldmart.Auth.API.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
@@ -11,11 +11,11 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddCoreData(configuration);
+            .AddAuthData(configuration);
 
         services
             .AddCoreServices(configuration)
-            .AddCoreSeeder();
+            .AddAuthSeeder();
 
         services.AddScoped<IAutenticacaoService, AutenticacaoService>();
 

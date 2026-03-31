@@ -1,7 +1,7 @@
-﻿using Coldmart.Cursos.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
 using Coldmart.Core.Data.Configurations;
+using Coldmart.Cursos.Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Coldmart.Cursos.Data.Configurations;
 

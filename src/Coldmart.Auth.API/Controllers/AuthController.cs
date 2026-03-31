@@ -1,10 +1,10 @@
-﻿using Coldmart.Core.Controllers;
+﻿using Coldmart.Auth.Business.Services;
+using Coldmart.Auth.Business.ViewModels;
+using Coldmart.Core.Controllers;
 using Coldmart.Core.Notificacao;
-using Coldmart.Core.Services;
-using Coldmart.Core.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Coldmart.Core.API.Controllers;
+namespace Coldmart.Auth.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

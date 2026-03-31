@@ -1,24 +1,26 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Coldmart.Core.Data.Contexts;
+using Coldmart.Auth.Data.Contexts;
+using Coldmart.Auth.Data.Seeders;
+using Coldmart.Core.Data.Extensions;
 using Coldmart.Core.Data.Seeders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Coldmart.Core.Data.Extensions;
+namespace Coldmart.Auth.Data.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCoreData(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAuthData(this IServiceCollection services, IConfiguration configuration)
     {
         services
             .AddIdentityCore<IdentityUser>(ConfigureIdentityOptions)
             .AddRoles<IdentityRole>()
-            .AddEntityFrameworkStores<CoreDbContext>()
+            .AddEntityFrameworkStores<AuthDbContext>()
             .AddSignInManager();
 
-        services.AddDbContext<ICoreDbContext, CoreDbContext>(options =>
+        services.AddDbContext<IAuthDbContext, AuthDbContext>(options =>
         {
             options.ConfigureDbContextOptions(configuration);
         });
@@ -26,10 +28,10 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCoreSeeder(this IServiceCollection services)
+    public static IServiceCollection AddAuthSeeder(this IServiceCollection services)
     {
         services.AddScoped<IDbSeeder, DbSeeder>();
-        services.AddScoped<IDbContextSeeder, CoreDbContextSeeder>();
+        services.AddScoped<IDbContextSeeder, AuthDbContextSeeder>();
 
         return services;
     }

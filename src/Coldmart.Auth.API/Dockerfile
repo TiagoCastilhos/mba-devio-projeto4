@@ -13,19 +13,21 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 COPY ["src/Coldmart.Core/Coldmart.Core.csproj", "Coldmart.Core/"]
 COPY ["src/Coldmart.Core.Data/Coldmart.Core.Data.csproj", "Coldmart.Core.Data/"]
-COPY ["src/Coldmart.Core.API/Coldmart.Core.API.csproj", "Coldmart.Core.API/"]
-RUN dotnet restore "Coldmart.Core.API/Coldmart.Core.API.csproj"
+COPY ["src/Coldmart.Auth.Business/Coldmart.Auth.Business.csproj", "Coldmart.Auth.Business/"]
+COPY ["src/Coldmart.Auth.Data/Coldmart.Auth.Data.csproj", "Coldmart.Auth.Data/"]
+COPY ["src/Coldmart.Auth.API/Coldmart.Auth.API.csproj", "Coldmart.Auth.API/"]
+RUN dotnet restore "Coldmart.Auth.API/Coldmart.Auth.API.csproj"
 COPY . .
-WORKDIR "/src/Coldmart.Core.API"
-RUN dotnet build "./Coldmart.Core.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/Coldmart.Auth.API"
+RUN dotnet build "./Coldmart.Auth.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Coldmart.Core.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./Coldmart.Auth.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Coldmart.Core.API.dll"]
+ENTRYPOINT ["dotnet", "Coldmart.Auth.API.dll"]

@@ -1,6 +1,6 @@
-﻿using Coldmart.Core.ViewModels;
+﻿using Coldmart.Auth.Business.ViewModels;
 
-namespace Coldmart.Core.Services;
+namespace Coldmart.Auth.Business.Services;
 
 public interface IAutenticacaoService
 {
