@@ -1,12 +1,10 @@
 ﻿using AutoFixture.Xunit2;
-using Coldmart.Core.Contracts;
 using Coldmart.Core.Eventos;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Tests.Attributes;
 using Coldmart.Core.Tests.Extensions;
 using Coldmart.Pagamentos.Business.Requests;
 using Coldmart.Pagamentos.Business.Services;
-using Coldmart.Pagamentos.Business.ViewModels;
 using Coldmart.Pagamentos.Data.Contexts;
 using Coldmart.Pagamentos.Domain;
 using MassTransit;
@@ -90,7 +88,7 @@ public class PagamentosServiceTests
         dbContext.Verify(db => db.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         Assert.Equal(StatusPagamento.Aprovado, pagamento.Status);
-        publishEndpoint.Verify(m => m.Publish(It.IsAny<PagamentoRealizado>(), It.IsAny<CancellationToken>()), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<PagamentoRealizadoEvento>(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Theory, AutoDomainData]
