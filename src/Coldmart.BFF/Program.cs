@@ -20,11 +20,11 @@ builder.Services
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("Jwt:SigningKey").ToString())),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Jwt:SigningKey"))),
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidAudience = builder.Configuration.GetSection("Jwt:Audience").ToString(),
-            ValidIssuer = builder.Configuration.GetSection("Jwt:Issuer").ToString()
+            ValidAudience = builder.Configuration.GetValue<string>("Jwt:Audience"),
+            ValidIssuer = builder.Configuration.GetValue<string>("Jwt:Issuer")
         };
     });
 

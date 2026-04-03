@@ -43,6 +43,7 @@ services:
         condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
+      - RabbitMq__Host=rabbitmq
 
   pagamentos:
     build:
@@ -60,7 +61,8 @@ services:
         condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-
+      - RabbitMq__Host=rabbitmq
+      
   bff:
     build:
       dockerfile: ./src/Coldmart.BFF/Dockerfile
