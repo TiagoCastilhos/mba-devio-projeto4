@@ -1,24 +1,19 @@
-﻿using Coldmart.Alunos.Data.Contexts;
-using Coldmart.Core.Contracts;
+﻿using Coldmart.Core.Eventos;
 using MassTransit;
-using Microsoft.EntityFrameworkCore;
 
 namespace Coldmart.Alunos.API.Consumers;
 
-public class PagamentoRealizadoConsumer : IConsumer<PagamentoRealizado>
+public class PagamentoRealizadoConsumer : IConsumer<PagamentoRealizadoEvento>
 {
-    private readonly IAlunosDbContext _dbContext;
+    private readonly MediatR.IMediator _mediator;
 
-    public PagamentoRealizadoConsumer(IAlunosDbContext dbContext)
+    public PagamentoRealizadoConsumer(MediatR.IMediator mediator)
     {
-        _dbContext = dbContext;
+        _mediator = mediator;
     }
 
-    public async Task Consume(ConsumeContext<PagamentoRealizado> context)
+    public async Task Consume(ConsumeContext<PagamentoRealizadoEvento> context)
     {
-        var matricula = await _dbContext.Matriculas
-            .FirstAsync(m => m.Id == context.Message.MatriculaId);
-        matricula.Iniciar();
-        await _dbContext.SaveChangesAsync();
+        await _mediator.Publish(context);
     }
 }

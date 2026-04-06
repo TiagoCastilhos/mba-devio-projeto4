@@ -44,7 +44,7 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
         await _dbContext.Matriculas.AddAsync(matricula, cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-        await _publishEndpoint.Publish(new MatriculaRealizada { AlunoId = aluno.Id, CursoId = curso.Id }, cancellationToken);
+        await _publishEndpoint.Publish(new MatriculaRealizadaEvento { AlunoId = aluno.Id, CursoId = curso.Id }, cancellationToken);
     }
 
     public async Task Handle(RealizarAulaRequest request, CancellationToken cancellationToken)
@@ -69,7 +69,7 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
         await _dbContext.HistoricosAlunos.AddAsync(historicoAluno, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        await _publishEndpoint.Publish(new AulaRealizada { AlunoId = aluno.Id, AulaId = aula.Id, CursoId = aula.CursoId }, cancellationToken);
+        await _publishEndpoint.Publish(new AulaRealizadaEvento { AlunoId = aluno.Id, AulaId = aula.Id, CursoId = aula.CursoId }, cancellationToken);
     }
 
     private async Task<Aluno> AdicionarAlunoAsync(Guid? usuarioId, CancellationToken cancellationToken)
