@@ -51,7 +51,7 @@ public class AlunosServiceTests
     public async Task HandleMatricularAoCurso_AlunoNaoEncontrado_DeveAdicionarAluno(
        [Frozen] Mock<IAlunosDbContext> dbContext,
        [Frozen] Mock<IUsuarioContext> usuarioContext,
-       [Frozen] Mock<IMediator> mediator,
+       [Frozen] Mock<INotificador> notificador,
        [Frozen] Mock<IPublishEndpoint> publishEndpoint,
        Curso curso, List<Aluno> alunos, List<Matricula> matriculas,
        AlunosService service,
@@ -78,10 +78,10 @@ public class AlunosServiceTests
 
         //assert
         alunosDbSet.Verify(m => m.AddAsync(It.Is<Aluno>(a => a.Id == id && a.Email == email), cancellationToken), Times.Once);
+        notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
-        mediator.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Once);
         matriculasDbSet.Verify(m => m.AddAsync(It.IsAny<Matricula>(), cancellationToken), Times.Once);
-        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizada>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Once);
     }
 
     [Theory, AutoDomainData]
