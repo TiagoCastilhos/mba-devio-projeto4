@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Coldmart.Alunos.Data.Contexts;
 using Coldmart.Alunos.Domain;
-using Coldmart.Auth.Data.Contexts;
 using Coldmart.Core.Data.Seeders;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,12 +10,10 @@ namespace Coldmart.Alunos.Data.Seeders;
 internal class AlunosDbContextSeeder : IDbContextSeeder
 {
     private readonly IAlunosDbContext _alunosDbContext;
-    private readonly IAuthDbContext _coreDbContext;
 
-    public AlunosDbContextSeeder(IAlunosDbContext alunosDbContext, IAuthDbContext coreDbContext)
+    public AlunosDbContextSeeder(IAlunosDbContext alunosDbContext)
     {
         _alunosDbContext = alunosDbContext;
-        _coreDbContext = coreDbContext;
     }
 
     public async Task SeedAsync(CancellationToken cancellationToken)
@@ -24,9 +21,7 @@ internal class AlunosDbContextSeeder : IDbContextSeeder
         if (await _alunosDbContext.Alunos.AnyAsync(cancellationToken))
             return;
 
-        var usuarioAluno = await _coreDbContext.Users.FirstAsync(u => u.Email == "aluno@coldmart.com", cancellationToken);
-
-        var aluno = new Aluno(Guid.Parse(usuarioAluno.Id), usuarioAluno.UserName!, usuarioAluno.Email!);
+        var aluno = new Aluno(new Guid("10890b08-2e51-43d0-84d2-244041b6c10c"), "aluno@coldmart.com", "aluno@coldmart.com");
         await _alunosDbContext.Alunos.AddAsync(aluno, cancellationToken);
 
         await _alunosDbContext.SaveChangesAsync(cancellationToken);

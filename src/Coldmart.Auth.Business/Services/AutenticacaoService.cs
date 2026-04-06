@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Coldmart.Auth.Business.ViewModels;
+using Coldmart.Core.Constants;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Options;
 using Microsoft.AspNetCore.Identity;
@@ -51,6 +52,30 @@ public class AutenticacaoService : IAutenticacaoService
             _notificador.AdicionarErro("Não foi possível autenticar o usuário. Verifique as credenciais e tente novamente.");
             return null;
         }
+
+        return await GerarTokenJwtAsync(user);
+    }
+
+    public async Task<string> CadastrarAsync(CadastrarViewModel inputModel)
+    {
+        var user = new IdentityUser(inputModel.Email)
+        {
+            UserName = inputModel.Email,
+            Email = inputModel.Email
+        };
+
+        var result = await _userManager.CreateAsync(user, inputModel.Senha);
+
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+                _notificador.AdicionarErro(error.Description);
+
+            return null;
+
+        }
+
+        await _userManager.AddToRoleAsync(user, RolesConstants.Usuario);
 
         return await GerarTokenJwtAsync(user);
     }

@@ -19,7 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Coldmart.Auth.Data\Coldmart.Auth.Data.csproj" />
     <ProjectReference Include="..\Coldmart.Cursos.Business\Coldmart.Cursos.Business.csproj" />
     <ProjectReference Include="..\Coldmart.Cursos.Data\Coldmart.Cursos.Data.csproj" />
   </ItemGroup>
