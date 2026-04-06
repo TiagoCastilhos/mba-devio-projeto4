@@ -44,7 +44,7 @@ public class AlunosServiceTests
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
         matriculasDbSet.Verify(m => m.AddAsync(It.IsAny<Matricula>(), cancellationToken), Times.Once);
-        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizada>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Once);
     }
 
     [Theory, AutoDomainData]
@@ -127,7 +127,7 @@ public class AlunosServiceTests
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
         historicosAlunosDbSet.Verify(m => m.AddAsync(It.IsAny<HistoricoAluno>(), cancellationToken), Times.Once);
-        publishEndpoint.Verify(m => m.Publish(It.IsAny<AulaRealizada>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<AulaRealizadaEvento>(), cancellationToken), Times.Once);
     }
 
     [Theory, AutoDomainData]

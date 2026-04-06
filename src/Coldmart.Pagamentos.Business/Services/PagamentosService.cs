@@ -1,5 +1,4 @@
-﻿using Coldmart.Core.Contracts;
-using Coldmart.Core.Eventos;
+﻿using Coldmart.Core.Eventos;
 using Coldmart.Core.Notificacao;
 using Coldmart.Pagamentos.Business.Requests;
 using Coldmart.Pagamentos.Data.Contexts;
@@ -62,7 +61,7 @@ public class PagamentosService :
         pagamento.Aprovar();
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        await _publishEndpoint.Publish(new PagamentoRealizado { MatriculaId = pagamento.MatriculaId });
+        await _publishEndpoint.Publish(new PagamentoRealizadoEvento { MatriculaId = pagamento.MatriculaId });
     }
 
     public async Task Handle(CancelarPagamentoRequest request, CancellationToken cancellationToken)
