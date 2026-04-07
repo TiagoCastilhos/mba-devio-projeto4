@@ -31,7 +31,7 @@ public class AuthDbContextSeeder : IDbContextSeeder
 
         var usuarioAdmin = new IdentityUser("admin@coldmart.com")
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "8fb2d600-c625-4c08-9612-24eb199f24da",
             UserName = "admin@coldmart.com",
             Email = "admin@coldmart.com",
         };
@@ -41,7 +41,7 @@ public class AuthDbContextSeeder : IDbContextSeeder
 
         var usuario = new IdentityUser("aluno@coldmart.com")
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "10890b08-2e51-43d0-84d2-244041b6c10c",
             UserName = "aluno@coldmart.com",
             Email = "aluno@coldmart.com",
         };

@@ -26,4 +26,16 @@ public class UsuarioContext : IUsuarioContext
 
         return Guid.Parse(idClaim);
     }
+
+    public string ObterEmailUsuario()
+    {
+        var user = _httpContextAccessor.HttpContext?.User;
+
+        if (user == null)
+            return null;
+
+        var emailClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
+        return emailClaim;
+    }
 }
