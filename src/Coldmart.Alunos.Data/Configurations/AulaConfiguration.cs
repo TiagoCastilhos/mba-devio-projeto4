@@ -1,15 +1,23 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Coldmart.Alunos.Domain;
-using Microsoft.EntityFrameworkCore;
+using Coldmart.Core.Data.Configurations;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Coldmart.Alunos.Data.Configurations;
 
 [ExcludeFromCodeCoverage]
-internal sealed class AulaConfiguration : IEntityTypeConfiguration<Aula>
+internal sealed class AulaConfiguration : EntityTypeConfiguration<Aula>
 {
-    public void Configure(EntityTypeBuilder<Aula> builder)
+    public override string TableName => "Aula";
+
+    public override void ConfigureEntity(EntityTypeBuilder<Aula> builder)
     {
-        builder.ToTable("Aula", a => a.ExcludeFromMigrations());
+        builder
+            .Property(a => a.Id)
+            .IsRequired();
+
+        builder
+            .Property(a => a.CursoId)
+            .IsRequired();
     }
 }

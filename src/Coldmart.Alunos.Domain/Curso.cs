@@ -1,9 +1,9 @@
-﻿namespace Coldmart.Alunos.Domain;
+﻿using Coldmart.Core.Domain;
 
-public class Curso
+namespace Coldmart.Alunos.Domain;
+
+public class Curso : Entity
 {
-    public Guid Id { get; set; }
-    public bool Deletado { get; set; }
     public virtual List<Aula> Aulas { get; set; }
 
     public Curso() { }

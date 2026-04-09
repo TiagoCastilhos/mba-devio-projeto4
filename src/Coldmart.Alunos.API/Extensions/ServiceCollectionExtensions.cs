@@ -9,11 +9,11 @@ namespace Coldmart.Alunos.API.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services
-            .AddAuthData(configuration)
-            .AddAlunosData(configuration);
+            .AddAuthData(configuration, environment)
+            .AddAlunosData(configuration, environment);
 
         services.AddMediatR(cfg =>
         {

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Coldmart.Core.Data.Configurations;
 using Coldmart.Pagamentos.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -6,11 +7,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Coldmart.Pagamentos.Data.Configurations;
 
 [ExcludeFromCodeCoverage]
-internal sealed class MatriculaConfiguration : IEntityTypeConfiguration<Matricula>
+internal sealed class MatriculaConfiguration : EntityTypeConfiguration<Matricula>
 {
-    public void Configure(EntityTypeBuilder<Matricula> builder)
+    public override string TableName => "Matricula";
+
+    public override void ConfigureEntity(EntityTypeBuilder<Matricula> builder)
     {
         builder
-            .ToTable("Matricula", a => a.ExcludeFromMigrations());
+            .Property(a => a.Id)
+            .IsRequired();
     }
 }
