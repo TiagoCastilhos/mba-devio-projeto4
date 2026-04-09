@@ -3,6 +3,7 @@ using System;
 using Coldmart.Pagamentos.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Coldmart.Pagamentos.Data.Migrations
 {
     [DbContext(typeof(PagamentosDbContext))]
-    partial class PagamentosDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260409143929_SeparacaoDeBancos")]
+    partial class SeparacaoDeBancos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
