@@ -27,14 +27,11 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
 
     public async Task Handle(MatricularAoCursoRequest request, CancellationToken cancellationToken)
     {
-        var alunoId = _usuarioContext.ObterIdUsuario();
+        var usuarioId = _usuarioContext.ObterIdUsuario();
 
-        var aluno = await _dbContext.Alunos.FirstOrDefaultAsync(a => a.Id == alunoId, cancellationToken);
-        if (aluno == null)
-        {
-            _notificador.AdicionarErro($"Aluno '{alunoId}' não encontrado.");
-            return;
-        }
+        var aluno = await _dbContext.Alunos.FirstOrDefaultAsync(a => a.Id == usuarioId, cancellationToken);
+
+        aluno ??= await AdicionarAlunoAsync(usuarioId, cancellationToken);
 
         var curso = await _dbContext.Cursos.FirstOrDefaultAsync(c => c.Id == request.Matricula.CursoId, cancellationToken);
         if (curso == null)
@@ -47,7 +44,7 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
         await _dbContext.Matriculas.AddAsync(matricula, cancellationToken);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
-        await _publishEndpoint.Publish(new MatriculaRealizada { AlunoId = aluno.Id, CursoId = curso.Id }, cancellationToken);
+        await _publishEndpoint.Publish(new MatriculaRealizadaEvento { AlunoId = aluno.Id, CursoId = curso.Id }, cancellationToken);
     }
 
     public async Task Handle(RealizarAulaRequest request, CancellationToken cancellationToken)
@@ -72,6 +69,17 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
         await _dbContext.HistoricosAlunos.AddAsync(historicoAluno, cancellationToken);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        await _publishEndpoint.Publish(new AulaRealizada { AlunoId = aluno.Id, AulaId = aula.Id, CursoId = aula.CursoId }, cancellationToken);
+        await _publishEndpoint.Publish(new AulaRealizadaEvento { AlunoId = aluno.Id, AulaId = aula.Id, CursoId = aula.CursoId }, cancellationToken);
+    }
+
+    private async Task<Aluno> AdicionarAlunoAsync(Guid? usuarioId, CancellationToken cancellationToken)
+    {
+        var usuarioEmail = _usuarioContext.ObterEmailUsuario();
+
+        var aluno = new Aluno(usuarioId!.Value, usuarioEmail, usuarioEmail);
+
+        await _dbContext.Alunos.AddAsync(aluno, cancellationToken);
+
+        return aluno;
     }
 }

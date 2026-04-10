@@ -1,7 +1,6 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Coldmart.Pagamentos.API.Extensions;
-using MassTransit;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,21 +39,6 @@ builder.Services.AddSwaggerGen(c =>
             },
             Array.Empty<string>()
         }
-    });
-});
-
-builder.Services.AddMassTransit(x =>
-{
-    x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("pagamentos", false));
-
-    x.UsingRabbitMq((context, cfg) =>
-    {
-        cfg.Host(builder.Configuration["RabbitMq:Host"], "/", h =>
-        {
-            h.Username(builder.Configuration.GetValue("RabbitMq:Username", "coldmart"));
-            h.Password(builder.Configuration.GetValue("RabbitMq:Password", "coldmart"));
-        });
-        cfg.ConfigureEndpoints(context);
     });
 });
 

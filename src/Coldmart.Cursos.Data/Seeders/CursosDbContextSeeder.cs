@@ -21,7 +21,11 @@ public class CursosDbContextSeeder : IDbContextSeeder
         if (await _cursosDbContext.Cursos.AnyAsync(cancellationToken))
             return;
 
-        var curso = new Curso("Introdução ao C#");
+        var cursoId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+        var curso = new Curso("Introdução ao C#")
+        {
+            Id = cursoId
+        };
         await _cursosDbContext.Cursos.AddAsync(curso, cancellationToken);
 
         var conteudoProgramatico = new ConteudoProgramatico(curso, "Variáveis e Tipos de Dados", "Aprenderemos a declarar variáveis de diversos tipos e a forma de alocação de memória para cada tipo.");

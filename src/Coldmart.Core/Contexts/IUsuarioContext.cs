@@ -3,4 +3,5 @@
 public interface IUsuarioContext
 {
     Guid? ObterIdUsuario();
+    string ObterEmailUsuario();
 }

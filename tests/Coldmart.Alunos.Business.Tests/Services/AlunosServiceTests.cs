@@ -44,7 +44,44 @@ public class AlunosServiceTests
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
         matriculasDbSet.Verify(m => m.AddAsync(It.IsAny<Matricula>(), cancellationToken), Times.Once);
-        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizada>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Once);
+    }
+
+    [Theory, AutoDomainData]
+    public async Task HandleMatricularAoCurso_AlunoNaoEncontrado_DeveAdicionarAluno(
+       [Frozen] Mock<IAlunosDbContext> dbContext,
+       [Frozen] Mock<IUsuarioContext> usuarioContext,
+       [Frozen] Mock<INotificador> notificador,
+       [Frozen] Mock<IPublishEndpoint> publishEndpoint,
+       Curso curso, List<Aluno> alunos, List<Matricula> matriculas,
+       AlunosService service,
+       MatricularAoCursoRequest request,
+       Guid id, string email,
+       CancellationToken cancellationToken)
+    {
+        //arrange
+        usuarioContext.Setup(uc => uc.ObterIdUsuario()).Returns(id);
+        usuarioContext.Setup(uc => uc.ObterEmailUsuario()).Returns(email);
+
+        request.Matricula.CursoId = curso.Id;
+
+        var alunosDbSet = DbSetHelper.CreateMockedDbSet(alunos);
+        dbContext.Setup(db => db.Alunos).Returns(alunosDbSet.Object);
+
+        dbContext.Setup(db => db.Cursos).Returns(DbSetHelper.CreateMockedDbSet([curso]).Object);
+
+        var matriculasDbSet = DbSetHelper.CreateMockedDbSet(matriculas);
+        dbContext.Setup(db => db.Matriculas).Returns(matriculasDbSet.Object);
+
+        //act
+        await service.Handle(request, cancellationToken);
+
+        //assert
+        alunosDbSet.Verify(m => m.AddAsync(It.Is<Aluno>(a => a.Id == id && a.Email == email), cancellationToken), Times.Once);
+        notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
+        dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
+        matriculasDbSet.Verify(m => m.AddAsync(It.IsAny<Matricula>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Once);
     }
 
     [Theory, AutoDomainData]
@@ -70,32 +107,6 @@ public class AlunosServiceTests
 
         //assert
         notificador.Verify(n => n.AdicionarErro(It.Is<string>(s => s.Contains(request.Matricula.CursoId.ToString()))), Times.Once);
-        dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Never);
-        mediator.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Never);
-    }
-
-    [Theory, AutoDomainData]
-    public async Task HandleMatricularAoCurso_AlunoNaoEncontrado_DeveAdicionarErro(
-       [Frozen] Mock<IAlunosDbContext> dbContext,
-       [Frozen] Mock<IUsuarioContext> usuarioContext,
-       [Frozen] Mock<INotificador> notificador,
-       [Frozen] Mock<IMediator> mediator,
-       Aluno aluno, Curso curso, List<Aluno> alunos,
-       AlunosService service,
-       MatricularAoCursoRequest request,
-       CancellationToken cancellationToken)
-    {
-        //arrange
-        usuarioContext.Setup(uc => uc.ObterIdUsuario()).Returns(aluno.Id);
-        request.Matricula.CursoId = curso.Id;
-
-        dbContext.Setup(db => db.Alunos).Returns(DbSetHelper.CreateMockedDbSet(alunos).Object);
-
-        //act
-        await service.Handle(request, cancellationToken);
-
-        //assert
-        notificador.Verify(n => n.AdicionarErro(It.Is<string>(s => s.Contains(aluno.Id.ToString()))), Times.Once);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Never);
         mediator.Verify(m => m.Publish(It.IsAny<MatriculaRealizadaEvento>(), cancellationToken), Times.Never);
     }
@@ -127,7 +138,7 @@ public class AlunosServiceTests
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
         historicosAlunosDbSet.Verify(m => m.AddAsync(It.IsAny<HistoricoAluno>(), cancellationToken), Times.Once);
-        publishEndpoint.Verify(m => m.Publish(It.IsAny<AulaRealizada>(), cancellationToken), Times.Once);
+        publishEndpoint.Verify(m => m.Publish(It.IsAny<AulaRealizadaEvento>(), cancellationToken), Times.Once);
     }
 
     [Theory, AutoDomainData]

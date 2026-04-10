@@ -24,4 +24,11 @@ public class AuthController : CustomControllerBase
         var token = await _autenticacaoService.GerarTokenAsync(viewModel);
         return CustomResponse(new { AccessToken = token });
     }
+
+    [HttpPost("cadastro")]
+    public async Task<IActionResult> Cadastrar([FromBody] CadastrarViewModel viewModel)
+    {
+        var token = await _autenticacaoService.CadastrarAsync(viewModel);
+        return CustomResponse(new { AccessToken = token });
+    }
 }
