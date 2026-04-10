@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Coldmart.Alunos.Data.Migrations
 {
     [DbContext(typeof(AlunosDbContext))]
-    [Migration("20260409143705_SeparacaoDeBancos")]
-    partial class SeparacaoDeBancos
+    [Migration("20260410132150_PrimeiraMigracaoAlunos")]
+    partial class PrimeiraMigracaoAlunos
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

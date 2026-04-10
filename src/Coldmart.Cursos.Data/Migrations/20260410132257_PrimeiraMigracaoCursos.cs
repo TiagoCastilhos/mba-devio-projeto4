@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Coldmart.Cursos.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AdicionarPrimeiraMigracaoCursos : Migration
+    public partial class PrimeiraMigracaoCursos : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,11 +15,11 @@ namespace Coldmart.Cursos.Data.Migrations
                 name: "Curso",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    DuracaoTotal = table.Column<double>(type: "float", nullable: false),
-                    DataCriacao = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Nome = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
+                    DuracaoTotal = table.Column<double>(type: "REAL", nullable: false),
+                    DataCriacao = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    Deletado = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,12 +30,12 @@ namespace Coldmart.Cursos.Data.Migrations
                 name: "Aula",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Titulo = table.Column<string>(type: "nvarchar(60)", maxLength: 60, nullable: false),
-                    Duracao = table.Column<double>(type: "float", nullable: false),
-                    DataCriacao = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Titulo = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
+                    Duracao = table.Column<double>(type: "REAL", nullable: false),
+                    DataCriacao = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    Deletado = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -52,12 +52,12 @@ namespace Coldmart.Cursos.Data.Migrations
                 name: "ConteudoProgramatico",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CursoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Titulo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Descricao = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    DataCriacao = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Deletado = table.Column<bool>(type: "bit", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CursoId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Titulo = table.Column<string>(type: "TEXT", maxLength: 50, nullable: false),
+                    Descricao = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    DataCriacao = table.Column<DateTimeOffset>(type: "TEXT", nullable: false),
+                    Deletado = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
