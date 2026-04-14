@@ -26,7 +26,7 @@ builder.Services.AddControllers()
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Total",
+    options.AddDefaultPolicy(
         builder =>
             builder
                 .AllowAnyOrigin()
@@ -44,8 +44,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-
-app.UseCors("Total");
 
 app.UseAuthentication();
 app.UseAuthorization();

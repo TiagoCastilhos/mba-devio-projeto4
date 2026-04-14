@@ -7,6 +7,11 @@ namespace Coldmart.BFF.Services;
 
 public abstract class Service
 {
+    protected readonly static JsonSerializerOptions DefaultOptions = new JsonSerializerOptions
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
     protected StringContent ObterConteudo(object dado)
     {
         return new StringContent(
@@ -18,28 +23,14 @@ public abstract class Service
     protected bool TratarErrosResponse(HttpResponseMessage response)
     {
         if (response.StatusCode == HttpStatusCode.BadRequest) return false;
-
         response.EnsureSuccessStatusCode();
         return true;
     }
 
     protected async Task<T?> DeserializarObjetoResponse<T>(HttpResponseMessage responseMessage)
     {
-        var options = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
-        var content = await responseMessage.Content.ReadAsStringAsync();
-
-        if (string.IsNullOrWhiteSpace(content))
-        {
-            return default(T);
-        }
-
-        var response = JsonSerializer.Deserialize<T>(content, options);
-
-        return response;
+        using var content = await responseMessage.Content.ReadAsStreamAsync();
+        return await JsonSerializer.DeserializeAsync<T>(content, DefaultOptions);
     }
 
     protected ResponseResult RetornoOk()
