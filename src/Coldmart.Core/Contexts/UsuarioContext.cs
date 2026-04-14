@@ -38,4 +38,19 @@ public class UsuarioContext : IUsuarioContext
 
         return emailClaim;
     }
+
+    public HttpContext ObterHttpContext()
+    {
+        return _httpContextAccessor.HttpContext;
+    }
+
+    public string ObterUserToken()
+    {
+        return EstaAutenticado() ? _httpContextAccessor.HttpContext.User.GetUserToken() : "";
+    }
+
+    public bool EstaAutenticado()
+    {
+        return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated;
+    }
 }
