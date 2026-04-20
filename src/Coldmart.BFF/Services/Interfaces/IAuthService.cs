@@ -5,5 +5,6 @@ namespace Coldmart.BFF.Services.Interfaces;
 
 public interface IAuthService
 {
-    Task<LogarResponseViewModel?> Logar(LogarViewModel viewModel);
+    Task<AccessTokenResponseViewModel?> Cadastro(CadastrarViewModel viewModel);
+    Task<AccessTokenResponseViewModel?> Logar(LogarViewModel viewModel);
 }
