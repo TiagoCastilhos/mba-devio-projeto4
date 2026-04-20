@@ -2,6 +2,7 @@
 using Coldmart.Core.Controllers;
 using Coldmart.Core.Notificacao;
 using Coldmart.Cursos.Business.Requests;
+using Coldmart.Cursos.Business.Services;
 using Coldmart.Cursos.Business.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,11 +15,26 @@ namespace Coldmart.Cursos.API.Controllers;
 public class CursosController : CustomControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly ICursoQueries _cursoQueries;
 
-    public CursosController(IMediator mediator, INotificador notificador) 
+    public CursosController(IMediator mediator, ICursoQueries cursoQueries, INotificador notificador) 
         : base(notificador)
     {
         _mediator = mediator;
+        _cursoQueries = cursoQueries;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> ObterTodosCursoAsync()
+    {
+        return CustomResponse(await _cursoQueries.ObterTodos());
+    }
+
+    [HttpGet("{id:Guid}")]
+    public async Task<IActionResult> ObterPorIdCursoAsync(Guid id)
+    {
+        var result = await _cursoQueries.ObterPorId(id);
+        return CustomResponse(result);
     }
 
     [HttpPost("")]

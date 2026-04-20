@@ -29,4 +29,16 @@ public class CursoService : Service, ICursoService
         var response = await _httpClient.PostAsync($"api/cursos/{aula.CursoId}/aulas", aulaContent);
         return await DeserializarObjetoResponse<ResponseResult>(response);
     }
+
+    public async Task<ResponseResult?> ObterTodos()
+    {
+        var response = await _httpClient.GetAsync("api/cursos");
+        return await DeserializarObjetoResponse<ResponseResult>(response);
+    }
+
+    public async Task<ResponseResult?> ObterPorId(Guid id)
+    {
+        var response = await _httpClient.GetAsync("api/cursos/" + id);
+        return await DeserializarObjetoResponse<ResponseResult>(response);
+    }
 }

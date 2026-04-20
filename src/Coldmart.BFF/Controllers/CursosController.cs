@@ -18,6 +18,20 @@ public class CursosController : CustomControllerBase
         _cursoService = cursoService;
     }
 
+    [HttpGet()]
+    public async Task<IActionResult> ObterTodos()
+    {
+        var response = await _cursoService.ObterTodos();
+        return CustomResponse(response);
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> CriarCursoAsync(Guid id)
+    {
+        var response = await _cursoService.ObterPorId(id);
+        return CustomResponse(response);
+    }
+
     [HttpPost("")]
     public async Task<IActionResult> CriarCursoAsync([FromBody] CursoViewModel viewModel)
     {
