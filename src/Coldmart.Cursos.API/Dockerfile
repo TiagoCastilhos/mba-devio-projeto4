@@ -2,11 +2,13 @@
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl
+
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
@@ -33,3 +35,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Coldmart.Cursos.API.dll"]
+HEALTHCHECK --interval=5s --timeout=3s --start-period=2s --retries=3 CMD curl -f http://localhost:8080/healthz || exit 1

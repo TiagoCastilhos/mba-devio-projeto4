@@ -20,7 +20,7 @@ public class PagamentosController : CustomControllerBase
     }
 
     [HttpPost("")]
-    [Authorize(Roles = RolesConstants.Usuario)]
+    [Authorize(Roles = RolesConstants.Aluno)]
     public async Task<IActionResult> CriarPagamentoAsync([FromBody] PagamentoViewModel pagamento)
     {
         var response = await _pagamentoService.CriarPagamentoAsync(pagamento);

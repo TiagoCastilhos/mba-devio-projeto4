@@ -27,7 +27,7 @@ public class AuthDbContextSeeder : IDbContextSeeder
             return;
 
         await _roleManager.CreateAsync(new IdentityRole(RolesConstants.Admin));
-        await _roleManager.CreateAsync(new IdentityRole(RolesConstants.Usuario));
+        await _roleManager.CreateAsync(new IdentityRole(RolesConstants.Aluno));
 
         var usuarioAdmin = new IdentityUser("admin@coldmart.com")
         {
@@ -47,6 +47,6 @@ public class AuthDbContextSeeder : IDbContextSeeder
         };
 
         await _userManager.CreateAsync(usuario, "Aluno@123");
-        await _userManager.AddToRoleAsync(usuario, RolesConstants.Usuario);
+        await _userManager.AddToRoleAsync(usuario, RolesConstants.Aluno);
     }
 }

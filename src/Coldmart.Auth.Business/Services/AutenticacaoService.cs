@@ -75,7 +75,7 @@ public class AutenticacaoService : IAutenticacaoService
 
         }
 
-        await _userManager.AddToRoleAsync(user, RolesConstants.Usuario);
+        await _userManager.AddToRoleAsync(user, RolesConstants.Aluno);
 
         return await GerarTokenJwtAsync(user);
     }
