@@ -6,13 +6,14 @@ using Coldmart.Core.Data.Seeders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Coldmart.Auth.Data.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAuthData(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAuthData(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services
             .AddIdentityCore<IdentityUser>(ConfigureIdentityOptions)
@@ -22,7 +23,7 @@ public static class ServiceCollectionExtensions
 
         services.AddDbContext<IAuthDbContext, AuthDbContext>(options =>
         {
-            options.ConfigureDbContextOptions(configuration);
+            options.ConfigureDbContextOptions(configuration, environment);
         });
 
         return services;

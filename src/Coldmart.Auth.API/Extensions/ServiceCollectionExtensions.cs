@@ -8,10 +8,10 @@ namespace Coldmart.Auth.API.Extensions;
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services
-            .AddAuthData(configuration);
+            .AddAuthData(configuration, environment);
 
         services
             .AddCoreServices(configuration)

@@ -5,17 +5,18 @@ using Coldmart.Core.Data.Extensions;
 using Coldmart.Core.Data.Seeders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Coldmart.Alunos.Data.Extensions;
 
 [ExcludeFromCodeCoverage]
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddAlunosData(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAlunosData(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services.AddDbContext<IAlunosDbContext, AlunosDbContext>(options =>
         {
-            options.ConfigureDbContextOptions(configuration);
+            options.ConfigureDbContextOptions(configuration, environment);
         });
 
         services.AddScoped<IDbSeeder, DbSeeder>();

@@ -1,8 +1,8 @@
-﻿namespace Coldmart.Pagamentos.Domain;
+﻿using Coldmart.Core.Domain;
 
-public class Matricula
+namespace Coldmart.Pagamentos.Domain;
+
+public class Matricula : Entity
 {
-    public Guid Id { get; set; }
-
     public Matricula() { }
 }
