@@ -17,7 +17,7 @@ public class CursosController : CustomControllerBase
     private readonly IMediator _mediator;
     private readonly ICursoQueries _cursoQueries;
 
-    public CursosController(IMediator mediator, ICursoQueries cursoQueries, INotificador notificador) 
+    public CursosController(IMediator mediator, ICursoQueries cursoQueries, INotificador notificador)
         : base(notificador)
     {
         _mediator = mediator;
@@ -45,6 +45,17 @@ public class CursosController : CustomControllerBase
             Curso = viewModel
         }, HttpContext.RequestAborted);
 
+        return CustomResponse();
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> EditarCursoAsync([FromRoute] Guid id, [FromBody] CursoViewModel viewModel)
+    {
+        viewModel.Id = id;
+        await _mediator.Send(new EditarCursoRequest
+        {
+            Curso = viewModel
+        }, HttpContext.RequestAborted);
         return CustomResponse();
     }
 

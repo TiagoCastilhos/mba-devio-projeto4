@@ -41,4 +41,11 @@ public class CursoService : Service, ICursoService
         var response = await _httpClient.GetAsync("api/cursos/" + id);
         return await DeserializarObjetoResponse<CursoViewModel>(response);
     }
+
+    public async Task<ResponseResult?> EditarCursoAsync(CursoViewModel viewModel)
+    {
+        var cursoContent = ObterConteudo(viewModel);
+        var response = await _httpClient.PutAsync("api/cursos/" + viewModel.Id, cursoContent);
+        return await DeserializarObjetoResponse<ResponseResult>(response);
+    }
 }

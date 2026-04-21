@@ -9,4 +9,5 @@ public interface ICursoService
     Task<ResponseResult?> AdicionarAulaAsync(AulaViewModel viewModel);
     Task<IEnumerable<CursoViewModel>?> ObterTodos();
     Task<CursoViewModel?> ObterPorId(Guid id);
+    Task<ResponseResult?> EditarCursoAsync(CursoViewModel viewModel);
 }

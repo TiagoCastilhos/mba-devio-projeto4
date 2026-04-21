@@ -32,4 +32,25 @@ public class AlunosController : CustomControllerBase
         var response = await _alunoService.RealizarAula(viewModel);
         return CustomResponse(response);
     }
+
+    [HttpGet("historico")]
+    public async Task<IActionResult> Historico()
+    {
+        var response = await _alunoService.Historico();
+        return CustomResponse(response);
+    }
+
+    [HttpPost("finalizar")]
+    public async Task<IActionResult> Finalizar([FromBody] FinalizarViewModel viewModel)
+    {
+        var response = await _alunoService.Finalizar(viewModel);
+        return CustomResponse(response);
+    }
+
+    [HttpGet("certificado")]
+    public async Task<IActionResult> Certificado()
+    {
+        var response = await _alunoService.Certificado();
+        return CustomResponse(response);
+    }
 }

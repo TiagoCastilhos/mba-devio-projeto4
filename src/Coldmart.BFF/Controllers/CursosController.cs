@@ -39,6 +39,14 @@ public class CursosController : CustomControllerBase
         return CustomResponse(response);
     }
 
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> EditarCursoAsync([FromRoute] Guid id, [FromBody] CursoViewModel viewModel)
+    {
+        viewModel.Id = id;
+        var response = await _cursoService.EditarCursoAsync(viewModel);
+        return CustomResponse(response);
+    }
+
     [HttpPost("aulas")]
     public async Task<IActionResult> AdicionarAulaAsync([FromBody] AulaViewModel viewModel)
     {
