@@ -30,15 +30,15 @@ public class CursoService : Service, ICursoService
         return await DeserializarObjetoResponse<ResponseResult>(response);
     }
 
-    public async Task<ResponseResult?> ObterTodos()
+    public async Task<IEnumerable<CursoViewModel>?> ObterTodos()
     {
         var response = await _httpClient.GetAsync("api/cursos");
-        return await DeserializarObjetoResponse<ResponseResult>(response);
+        return await DeserializarObjetoResponse<IEnumerable<CursoViewModel>>(response);
     }
 
-    public async Task<ResponseResult?> ObterPorId(Guid id)
+    public async Task<CursoViewModel?> ObterPorId(Guid id)
     {
         var response = await _httpClient.GetAsync("api/cursos/" + id);
-        return await DeserializarObjetoResponse<ResponseResult>(response);
+        return await DeserializarObjetoResponse<CursoViewModel>(response);
     }
 }

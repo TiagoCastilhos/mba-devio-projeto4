@@ -7,6 +7,6 @@ public interface ICursoService
 {
     Task<ResponseResult?> CriarCursoAsync(CursoViewModel curso);
     Task<ResponseResult?> AdicionarAulaAsync(AulaViewModel viewModel);
-    Task<ResponseResult?> ObterTodos();
-    Task<ResponseResult?> ObterPorId(Guid id);
+    Task<IEnumerable<CursoViewModel>?> ObterTodos();
+    Task<CursoViewModel?> ObterPorId(Guid id);
 }
