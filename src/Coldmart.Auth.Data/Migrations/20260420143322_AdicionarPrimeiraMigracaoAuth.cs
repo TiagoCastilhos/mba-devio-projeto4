@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Coldmart.Auth.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AdicionarPrimeiraMigracaoCore : Migration
+    public partial class AdicionarPrimeiraMigracaoAuth : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

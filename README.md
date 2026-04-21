@@ -29,7 +29,7 @@ ASP.NET Core Web API
 
 Entity Framework Core
 
-Banco de Dados: SQLite e SQL Server
+Banco de Dados: SQL Server
 
 Autenticação e Autorização:
 
@@ -82,8 +82,6 @@ Pré-requisitos
 
 .NET SDK 9.0 ou superior
 
-SQL Server (Opcional)
-
 Visual Studio 2022 ou superior (ou qualquer IDE de sua preferência)
 
 Git
@@ -100,6 +98,36 @@ cd nome-do-repositorio
 Uma vez na pasta raíz do projeto, rode o comando: `docker compose up`
 
 Os serviços e as dependências serão buildados (ou baixados dos respectivos registries).
+
+6.1 Credenciais dos usuários padrões (criados via seed)
+
+## Admin
+### Email
+admin@coldmart.com
+### Senha
+Admin@123
+
+## Aluno
+### Email
+aluno@coldmart.com
+### Senha
+Aluno@123
+
+6.2 Remoção do suporte ao SQLite
+
+A partir do EF Core (9 e superiores), alguns comportamentos mudaram com relação à aplicar a migration em um banco de dados, uma delas é [esse novo comportamento](https://learn.microsoft.com/en-us/ef/core/what-is-new/ef-core-9.0/breaking-changes#exception-is-thrown-when-applying-migrations-if-there-are-pending-model-changes).
+
+É possível ignorar esse erro configurando o EF da seguinte maneira:
+```dotnet
+options.ConfigureWarnings(w =>
+    w.Ignore(RelationalEventId.PendingModelChangesWarning));
+```
+Ao configurar o model builder dessa forma, percebemos o seguinte erro:
+```
+Unhandled exception. Microsoft.Data.SqlClient.SqlException (0x80131904): Column 'Id' in table 'Curso' is of a type that is invalid for use as a key column in an index.
+```
+Isso indica que ao menos a versão do sql server utilizada no projeto não suporta o data type `text` como Id. Embora seja possível trocar o Id para usar um identificar diferente, como um inteiro com auto increment por exemplo, o suporte ao SQLite não deveria ser um fator de decisão para tal mudança. Considerando isso e também o fato de que o Docker já é um requisito do projeto, não se faz necessário usar o SQLite a fim de facilitar o desenvolvimento, uma vez que se pode simplesmente instanciar um container do SQL Server dentro do mesmo compose.
+Outro ponto é que tipos legado como TEXT não são mais utilizados no SQL server e devem ser alterados para usar o respectivo tipo. Armazenar identificadores únicos, datas e outros como TEXT implica em degradação de performance do próprio mecanismo ao realizar filtros ou criar índices para esses campos.
 
 7. Instruções de Configuração
 JWT para API: As chaves de configuração do JWT estão no appsettings.json.

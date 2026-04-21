@@ -15,13 +15,6 @@ public static class DbContextOptionsExtensions
     {
         options.UseLazyLoadingProxies();
 
-        if (environment.IsDevelopment())
-        {
-            options.UseSqlite(configuration.GetConnectionString("ColdmartDb"));
-        }
-        else
-        {
-            options.UseSqlServer(configuration.GetConnectionString("ColdmartDb"));
-        }
+        options.UseSqlServer(configuration.GetConnectionString("ColdmartDb"));
     }
 }

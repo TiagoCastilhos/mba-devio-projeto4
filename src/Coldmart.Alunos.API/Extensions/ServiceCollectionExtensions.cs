@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection ConfigurarInjecaoDependencia(this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services
-            .AddAlunosData(configuration);
+            .AddAlunosData(configuration, environment);
 
         services.AddMediatR(cfg =>
         {
