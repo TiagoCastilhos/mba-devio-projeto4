@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Coldmart.Alunos.Business.Services;
 
-public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequestHandler<RealizarAulaRequest>
+public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequestHandler<RealizarAulaRequest>, IRequestHandler<FinalizarRequest>
 {
     private readonly IAlunosDbContext _dbContext;
     private readonly IUsuarioContext _usuarioContext;
@@ -70,6 +70,27 @@ public class AlunosService : IRequestHandler<MatricularAoCursoRequest>, IRequest
         await _dbContext.SaveChangesAsync(cancellationToken);
 
         await _publishEndpoint.Publish(new AulaRealizadaEvento { AlunoId = aluno.Id, AulaId = aula.Id, CursoId = aula.CursoId }, cancellationToken);
+    }
+
+    public async Task Handle(FinalizarRequest request, CancellationToken cancellationToken)
+    {
+        var alunoId = _usuarioContext.ObterIdUsuario();
+        var aluno = await _dbContext.Alunos.FirstOrDefaultAsync(a => a.Id == alunoId, cancellationToken);
+        if (aluno == null)
+        {
+            _notificador.AdicionarErro($"Aluno '{alunoId}' não encontrado.");
+            return;
+        }
+
+        var matricula = aluno.Matriculas.FirstOrDefault(m => m.CursoId == request.Matricula.CursoId);
+        if (matricula == null)
+        {
+            _notificador.AdicionarErro($"Matrícula para o curso '{request.Matricula.CursoId}' não encontrada.");
+            return;
+        }
+
+        matricula.Concluir();
+        await _dbContext.SaveChangesAsync(cancellationToken);
     }
 
     private async Task<Aluno> AdicionarAlunoAsync(Guid? usuarioId, CancellationToken cancellationToken)
