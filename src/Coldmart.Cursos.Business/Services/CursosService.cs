@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Coldmart.Cursos.Business.Services;
 
-public class CursosService : IRequestHandler<CriarCursoRequest>, 
+public class CursosService : IRequestHandler<CriarCursoRequest>,
     IRequestHandler<AdicionarAulaRequest>,
     IRequestHandler<EditarCursoRequest>
 {
@@ -77,6 +77,7 @@ public class CursosService : IRequestHandler<CriarCursoRequest>,
         {
             var conteudoProgramatico = new ConteudoProgramatico(curso, conteudoProgramaticoViewModel.Titulo, conteudoProgramaticoViewModel.Descricao);
             curso.AdicionarConteudoProgramatico(conteudoProgramatico);
+            await _cursosDbContext.ConteudosProgramaticos.AddAsync(conteudoProgramatico, cancellationToken);
         }
 
         await _cursosDbContext.SaveChangesAsync(cancellationToken);

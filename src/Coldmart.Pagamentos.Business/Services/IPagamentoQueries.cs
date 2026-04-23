@@ -4,6 +4,6 @@ namespace Coldmart.Pagamentos.Business.Services;
 
 public interface IPagamentoQueries
 {
-    Task<IEnumerable<PagamentoViewModel>> ObterTodos();
-    Task<PagamentoViewModel> ObterPorId(Guid id);
+    Task<IEnumerable<PagamentoViewModel>> ObterTodosAsync();
+    Task<PagamentoViewModel> ObterPorIdAsync(Guid id);
 }

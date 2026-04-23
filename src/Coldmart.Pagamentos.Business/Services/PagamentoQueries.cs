@@ -14,13 +14,13 @@ public class PagamentoQueries : IPagamentoQueries
         _context = context;
     }
 
-    public async Task<PagamentoViewModel> ObterPorId(Guid id)
+    public async Task<PagamentoViewModel> ObterPorIdAsync(Guid id)
     {
         var pagamento = await _context.Pagamentos.FindAsync(id);
         return pagamento.ToViewModel();
     }
 
-    public async Task<IEnumerable<PagamentoViewModel>> ObterTodos()
+    public async Task<IEnumerable<PagamentoViewModel>> ObterTodosAsync()
     {
         var pagamentos = await _context.Pagamentos.ToListAsync();
         return pagamentos.ToViewModel();

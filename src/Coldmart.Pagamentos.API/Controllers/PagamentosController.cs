@@ -26,17 +26,17 @@ public class PagamentosController : CustomControllerBase
 
     [HttpGet()]
     [Authorize(Roles = RolesConstants.Admin)]
-    public async Task<IActionResult> ObterTodos()
+    public async Task<IActionResult> ObterTodosAync()
     {
-        var pagamentos = await _pagamentoQueries.ObterTodos();
+        var pagamentos = await _pagamentoQueries.ObterTodosAsync();
         return CustomResponse(pagamentos);
     }
 
     [HttpGet("{id:guid}")]
     [Authorize(Roles = RolesConstants.Admin)]
-    public async Task<IActionResult> ObterPorId([FromRoute] Guid id)
+    public async Task<IActionResult> ObterPorIdAsync([FromRoute] Guid id)
     {
-        var pagamento = await _pagamentoQueries.ObterPorId(id);
+        var pagamento = await _pagamentoQueries.ObterPorIdAsync(id);
         return CustomResponse(pagamento);
     }
 
