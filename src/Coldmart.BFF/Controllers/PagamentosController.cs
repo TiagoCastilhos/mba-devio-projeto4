@@ -19,6 +19,14 @@ public class PagamentosController : CustomControllerBase
         _pagamentoService = pagamentoService;
     }
 
+    [HttpGet()]
+    [Authorize(Roles = RolesConstants.Aluno)]
+    public async Task<IActionResult> ObterTodos()
+    {
+        var response = await _pagamentoService.ObterTodosAsync();
+        return CustomResponse(response);
+    }
+
     [HttpGet("{id:guid}")]
     [Authorize(Roles = RolesConstants.Aluno)]
     public async Task<IActionResult> ObterPorId([FromRoute] Guid id)

@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Coldmart.Pagamentos.Domain;
+using System.ComponentModel.DataAnnotations;
 
 namespace Coldmart.Pagamentos.Business.ViewModels;
 
 public class PagamentoViewModel
 {
+    public Guid Id { get; set; }
+
     [Required]
     public DadosCartaoViewModel Cartao { get; set; }
 

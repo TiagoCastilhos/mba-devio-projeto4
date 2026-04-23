@@ -14,6 +14,8 @@ public static class ServiceCollectionExtensions
         services
             .AddPagamentosData(configuration, environment);
 
+        services.AddScoped<IPagamentoQueries, PagamentoQueries>();
+
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblyContaining<PagamentosService>();
