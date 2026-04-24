@@ -30,7 +30,7 @@ public abstract class Service
     protected async Task<T?> DeserializarObjetoResponse<T>(HttpResponseMessage responseMessage)
     {
         using var content = await responseMessage.Content.ReadAsStreamAsync();
-        return await JsonSerializer.DeserializeAsync<T>(content, DefaultOptions);
+        return content.Length == 0 ? default : await JsonSerializer.DeserializeAsync<T>(content, DefaultOptions);
     }
 
     protected ResponseResult RetornoOk()

@@ -34,4 +34,10 @@ public class Curso : Entity, IAggregateRoot
         (Aulas ??= []).Add(aula);
         DuracaoTotal += aula.Duracao;
     }
+
+    public void AtualizarNome(string nome)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(nome, nameof(nome));
+        Nome = nome;
+    }
 }

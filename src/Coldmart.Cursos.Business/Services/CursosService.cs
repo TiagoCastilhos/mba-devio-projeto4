@@ -7,7 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Coldmart.Cursos.Business.Services;
 
-public class CursosService : IRequestHandler<CriarCursoRequest>, IRequestHandler<AdicionarAulaRequest>
+public class CursosService : IRequestHandler<CriarCursoRequest>,
+    IRequestHandler<AdicionarAulaRequest>,
+    IRequestHandler<EditarCursoRequest>
 {
     private readonly ICursosDbContext _cursosDbContext;
     private readonly INotificador _notificador;
@@ -47,6 +49,37 @@ public class CursosService : IRequestHandler<CriarCursoRequest>, IRequestHandler
         await _cursosDbContext.Aulas.AddAsync(aula, cancellationToken);
 
         curso.AdicionarAula(aula);
+        await _cursosDbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task Handle(EditarCursoRequest request, CancellationToken cancellationToken)
+    {
+        var curso = await _cursosDbContext.Cursos.FirstOrDefaultAsync(c => c.Id == request.Curso.Id, cancellationToken);
+        if (curso == null)
+        {
+            _notificador.AdicionarErro($"Curso '{request.Curso.Id}' não encontrado.");
+            return;
+        }
+
+        curso.AtualizarNome(request.Curso.Nome);
+
+        var conteudosProgramaticosAntigos = curso.ConteudosProgramaticos?.Where(c => c.CursoId == request.Curso.Id);
+
+        if (conteudosProgramaticosAntigos != null)
+        {
+            foreach (var conteudoProgramaticoAntigo in conteudosProgramaticosAntigos)
+            {
+                _cursosDbContext.ConteudosProgramaticos.Remove(conteudoProgramaticoAntigo);
+            }
+        }
+
+        foreach (var conteudoProgramaticoViewModel in request.Curso.ConteudosProgramaticos)
+        {
+            var conteudoProgramatico = new ConteudoProgramatico(curso, conteudoProgramaticoViewModel.Titulo, conteudoProgramaticoViewModel.Descricao);
+            curso.AdicionarConteudoProgramatico(conteudoProgramatico);
+            await _cursosDbContext.ConteudosProgramaticos.AddAsync(conteudoProgramatico, cancellationToken);
+        }
+
         await _cursosDbContext.SaveChangesAsync(cancellationToken);
     }
 }

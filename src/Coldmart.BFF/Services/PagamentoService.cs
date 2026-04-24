@@ -36,4 +36,16 @@ public class PagamentoService : Service, IPagamentoService
         var response = await _httpClient.PostAsync($"api/pagamentos/{id}/cancelar", pagamentoContent);
         return await DeserializarObjetoResponse<ResponseResult>(response);
     }
+
+    public async Task<PagamentoViewModel?> ObterPorIdAsync(Guid id)
+    {
+        var response = await _httpClient.GetAsync($"api/pagamentos/{id}");
+        return await DeserializarObjetoResponse<PagamentoViewModel>(response);
+    }
+
+    public async Task<IEnumerable<PagamentoViewModel>?> ObterTodosAsync()
+    {
+        var response = await _httpClient.GetAsync($"api/pagamentos");
+        return await DeserializarObjetoResponse<IEnumerable<PagamentoViewModel>>(response);
+    }
 }

@@ -19,6 +19,22 @@ public class PagamentosController : CustomControllerBase
         _pagamentoService = pagamentoService;
     }
 
+    [HttpGet()]
+    [Authorize(Roles = RolesConstants.Aluno)]
+    public async Task<IActionResult> ObterTodosAsync()
+    {
+        var response = await _pagamentoService.ObterTodosAsync();
+        return CustomResponse(response);
+    }
+
+    [HttpGet("{id:guid}")]
+    [Authorize(Roles = RolesConstants.Aluno)]
+    public async Task<IActionResult> ObterPorIdAsync([FromRoute] Guid id)
+    {
+        var response = await _pagamentoService.ObterPorIdAsync(id);
+        return CustomResponse(response);
+    }
+
     [HttpPost("")]
     [Authorize(Roles = RolesConstants.Aluno)]
     public async Task<IActionResult> CriarPagamentoAsync([FromBody] PagamentoViewModel pagamento)

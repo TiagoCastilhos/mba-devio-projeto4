@@ -29,4 +29,24 @@ public class AlunoService : Service, IAlunoService
         var response = await _httpClient.PostAsync("api/alunos/cursos/aulas", realizarAulaContent);
         return await DeserializarObjetoResponse<ResponseResult>(response);
     }
+
+    public async Task<ResponseResult?> Certificado()
+    {
+        var response = await _httpClient.GetAsync("api/alunos/certificado");
+        return await DeserializarObjetoResponse<ResponseResult>(response);
+    }
+
+    public async Task<ResponseResult?> Finalizar(FinalizarViewModel viewModel)
+    {
+        var finalizarContent = ObterConteudo(viewModel);
+        var response = await _httpClient.PostAsync("api/alunos/finalizar", finalizarContent);
+        return await DeserializarObjetoResponse<ResponseResult>(response);
+    }
+
+    public async Task<ResponseResult?> Historico()
+    {
+        var response = await _httpClient.GetAsync("api/alunos/historico");
+        return await DeserializarObjetoResponse<ResponseResult>(response);
+    }
+
 }

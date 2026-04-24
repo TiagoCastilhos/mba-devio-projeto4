@@ -94,4 +94,33 @@ public class CursosServiceTests
         dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Never);
         aulasDbSet.Verify(m => m.AddAsync(It.IsAny<Aula>(), cancellationToken), Times.Never);
     }
+
+    [Theory, AutoDomainData]
+    internal async Task HandleEditarCurso_FornecidosCursoEConteudo_DeveEditar(
+    [Frozen] Mock<ICursosDbContext> dbContext,
+    [Frozen] Mock<INotificador> notificador,
+    CursosService service,
+    List<Curso> cursos, List<ConteudoProgramatico> conteudosProgramaticos,
+    EditarCursoRequest request,
+    CancellationToken cancellationToken)
+    {
+        //arrange
+        var cursosDbSet = DbSetHelper.CreateMockedDbSet(cursos);
+        dbContext.Setup(db => db.Cursos).Returns(cursosDbSet.Object);
+
+        var conteudosProgramaticosDbSet = DbSetHelper.CreateMockedDbSet(conteudosProgramaticos);
+        dbContext.Setup(db => db.ConteudosProgramaticos).Returns(conteudosProgramaticosDbSet.Object);
+
+        //act
+        await service.Handle(request, cancellationToken);
+
+        //assert
+        notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
+        //cursosDbSet.Verify(m => m.AddAsync(It.Is<Curso>(c => c.Nome == request.Curso.Nome), cancellationToken), Times.Once);
+        //dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Exactly(2));
+
+        //Assert.All(request.Curso.ConteudosProgramaticos!, cp =>
+        //    conteudosProgramaticosDbSet.Verify(m => m.AddAsync(It.Is<ConteudoProgramatico>(c =>
+        //        c.Titulo == cp.Titulo && c.Descricao == cp.Descricao), cancellationToken), Times.Exactly(2)));
+    }
 }

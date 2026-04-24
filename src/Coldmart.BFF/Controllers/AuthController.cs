@@ -1,4 +1,5 @@
-﻿using Coldmart.BFF.Services.Interfaces;
+﻿using Coldmart.BFF.Services;
+using Coldmart.BFF.Services.Interfaces;
 using Coldmart.BFF.ViewModels;
 using Coldmart.Core.Controllers;
 using Coldmart.Core.Notificacao;
@@ -21,6 +22,13 @@ public class AuthController : CustomControllerBase
     public async Task<IActionResult> Logar([FromBody] LogarViewModel viewModel)
     {
         var response = await _authService.Logar(viewModel);
+        return CustomResponse(response);
+    }
+
+    [HttpPost("cadastro")]
+    public async Task<IActionResult> Cadastro([FromBody] CadastrarViewModel viewModel)
+    {
+        var response = await _authService.Cadastro(viewModel);
         return CustomResponse(response);
     }
 }

@@ -15,11 +15,19 @@ public partial class AuthService : Service, IAuthService
         _httpClient.BaseAddress = new Uri(settings.Value.AuthServiceUrl);
     }
 
-    public async Task<LogarResponseViewModel?> Logar(LogarViewModel viewModel)
+    public async Task<AccessTokenResponseViewModel?> Cadastro(CadastrarViewModel viewModel)
+    {
+        var authContent = ObterConteudo(viewModel);
+        var response = await _httpClient.PostAsync("api/auth/cadastro", authContent);
+        var result = await DeserializarObjetoResponse<AccessTokenResponseViewModel>(response);
+        return result;
+    }
+
+    public async Task<AccessTokenResponseViewModel?> Logar(LogarViewModel viewModel)
     {
         var authContent = ObterConteudo(viewModel);
         var response = await _httpClient.PostAsync("api/auth/login", authContent);
-        var result = await DeserializarObjetoResponse<LogarResponseViewModel>(response);
+        var result = await DeserializarObjetoResponse<AccessTokenResponseViewModel>(response);
         return result;
     }
 }

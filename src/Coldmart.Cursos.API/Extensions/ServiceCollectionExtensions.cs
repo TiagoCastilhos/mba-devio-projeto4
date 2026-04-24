@@ -18,6 +18,8 @@ public static class ServiceCollectionExtensions
             cfg.RegisterServicesFromAssemblyContaining<CursosService>();
         });
 
+        services.AddScoped<ICursoQueries, CursoQueries>();
+
         services
             .AddCoreServices(configuration);
 
