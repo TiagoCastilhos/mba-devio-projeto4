@@ -1,10 +1,12 @@
-﻿using Coldmart.Core.Communication;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text;
 using System.Text.Json;
+using Coldmart.Core.Communication;
 
 namespace Coldmart.BFF.Services;
 
+[ExcludeFromCodeCoverage]
 public abstract class Service
 {
     protected readonly static JsonSerializerOptions DefaultOptions = new JsonSerializerOptions

@@ -1,9 +1,11 @@
-﻿using Polly;
+﻿using System.Diagnostics.CodeAnalysis;
+using Polly;
 using Polly.Extensions.Http;
 using Polly.Retry;
 
 namespace Coldmart.BFF.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class PollyExtensions
 {
     public static AsyncRetryPolicy<HttpResponseMessage> EsperarTentar()

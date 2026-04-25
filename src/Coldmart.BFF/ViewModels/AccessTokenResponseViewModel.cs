@@ -1,9 +1,9 @@
-﻿namespace Coldmart.BFF.Services;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public partial class AuthService
+namespace Coldmart.BFF.Services;
+
+[ExcludeFromCodeCoverage]
+public class AccessTokenResponseViewModel
 {
-    public class AccessTokenResponseViewModel
-    {
-        public string AccessToken { get; set; }
-    }
+    public string AccessToken { get; set; }
 }

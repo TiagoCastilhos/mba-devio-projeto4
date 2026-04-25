@@ -1,9 +1,11 @@
-﻿using AutoFixture.Xunit2;
+﻿using AutoFixture;
+using AutoFixture.Xunit2;
 using Coldmart.Core.Notificacao;
 using Coldmart.Core.Tests.Attributes;
 using Coldmart.Core.Tests.Extensions;
 using Coldmart.Cursos.Business.Requests;
 using Coldmart.Cursos.Business.Services;
+using Coldmart.Cursos.Business.ViewModels;
 using Coldmart.Cursos.Data.Contexts;
 using Coldmart.Cursos.Domain;
 using Moq;
@@ -100,27 +102,33 @@ public class CursosServiceTests
     [Frozen] Mock<ICursosDbContext> dbContext,
     [Frozen] Mock<INotificador> notificador,
     CursosService service,
-    List<Curso> cursos, List<ConteudoProgramatico> conteudosProgramaticos,
-    EditarCursoRequest request,
+    Curso curso, List<ConteudoProgramatico> conteudosProgramaticos,
+    IFixture fixture,
     CancellationToken cancellationToken)
     {
         //arrange
-        var cursosDbSet = DbSetHelper.CreateMockedDbSet(cursos);
+        var cursosDbSet = DbSetHelper.CreateMockedDbSet([curso]);
         dbContext.Setup(db => db.Cursos).Returns(cursosDbSet.Object);
 
         var conteudosProgramaticosDbSet = DbSetHelper.CreateMockedDbSet(conteudosProgramaticos);
         dbContext.Setup(db => db.ConteudosProgramaticos).Returns(conteudosProgramaticosDbSet.Object);
+
+        var viewModel = fixture.Build<CursoViewModel>()
+            .With(c => c.Id, curso.Id)
+            .Create();
+
+        var request = fixture.Build<EditarCursoRequest>().With(r => r.Curso, viewModel).Create();
 
         //act
         await service.Handle(request, cancellationToken);
 
         //assert
         notificador.Verify(n => n.AdicionarErro(It.IsAny<string>()), Times.Never);
-        //cursosDbSet.Verify(m => m.AddAsync(It.Is<Curso>(c => c.Nome == request.Curso.Nome), cancellationToken), Times.Once);
-        //dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Exactly(2));
 
-        //Assert.All(request.Curso.ConteudosProgramaticos!, cp =>
-        //    conteudosProgramaticosDbSet.Verify(m => m.AddAsync(It.Is<ConteudoProgramatico>(c =>
-        //        c.Titulo == cp.Titulo && c.Descricao == cp.Descricao), cancellationToken), Times.Exactly(2)));
+        Assert.All(request.Curso.ConteudosProgramaticos!, cp =>
+            conteudosProgramaticosDbSet.Verify(m => m.AddAsync(It.Is<ConteudoProgramatico>(c =>
+                c.Titulo == cp.Titulo && c.Descricao == cp.Descricao), cancellationToken), Times.Once));
+
+        dbContext.Verify(c => c.SaveChangesAsync(cancellationToken), Times.Once);
     }
 }
