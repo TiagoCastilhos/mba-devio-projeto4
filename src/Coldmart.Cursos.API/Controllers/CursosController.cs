@@ -59,8 +59,8 @@ public class CursosController : CustomControllerBase
         return CustomResponse();
     }
 
-    [HttpPost("{id:guid}/aulas")]
-    public async Task<IActionResult> AdicionarAulaAsync([FromRoute] Guid id, [FromBody] AulaViewModel viewModel)
+    [HttpPost("aulas")]
+    public async Task<IActionResult> AdicionarAulaAsync([FromBody] AulaViewModel viewModel)
     {
         await _mediator.Send(new AdicionarAulaRequest
         {

@@ -26,7 +26,7 @@ public class CursoService : Service, ICursoService
     public async Task<ResponseResult?> AdicionarAulaAsync(AulaViewModel aula)
     {
         var aulaContent = ObterConteudo(aula);
-        var response = await _httpClient.PostAsync($"api/cursos/{aula.CursoId}/aulas", aulaContent);
+        var response = await _httpClient.PostAsync($"api/cursos/aulas", aulaContent);
         return await DeserializarObjetoResponse<ResponseResult>(response);
     }
 
