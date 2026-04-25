@@ -138,7 +138,11 @@ A documentação de cada API está disponível através do Swagger. Após execut
 
 http://localhost:{ Porta do serviço, especificado no docker-compose.yml }/swagger
 
-9. Avaliação
+9. Considerações do grupo
+
+- O projeto Coldmart.BFF não foi coberto por testes unitários por falta de tempo para implementação
+
+10. Avaliação
 
 Este projeto é parte de um curso acadêmico e não aceita contribuições externas.
 

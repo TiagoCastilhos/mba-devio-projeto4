@@ -1,4 +1,5 @@
-﻿using Coldmart.BFF.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using Coldmart.BFF.Models;
 using Coldmart.BFF.Services.Interfaces;
 using Coldmart.BFF.ViewModels;
 using Coldmart.Core.Communication;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace Coldmart.BFF.Services;
 
+[ExcludeFromCodeCoverage]
 public class AlunoService : Service, IAlunoService
 {
     private readonly HttpClient _httpClient;

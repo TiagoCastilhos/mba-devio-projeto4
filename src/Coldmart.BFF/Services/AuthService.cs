@@ -1,11 +1,13 @@
-﻿using Coldmart.BFF.Models;
+﻿using System.Diagnostics.CodeAnalysis;
+using Coldmart.BFF.Models;
 using Coldmart.BFF.Services.Interfaces;
 using Coldmart.BFF.ViewModels;
 using Microsoft.Extensions.Options;
 
 namespace Coldmart.BFF.Services;
 
-public partial class AuthService : Service, IAuthService
+[ExcludeFromCodeCoverage]
+public class AuthService : Service, IAuthService
 {
     private readonly HttpClient _httpClient;
 

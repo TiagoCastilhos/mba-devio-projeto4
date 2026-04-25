@@ -1,8 +1,10 @@
-﻿using Coldmart.Core.Contexts;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Headers;
+using Coldmart.Core.Contexts;
 
 namespace Coldmart.BFF.Extensions
 {
+    [ExcludeFromCodeCoverage]
     public class HttpClientAuthorizationDelegatingHandler : DelegatingHandler
     {
         private readonly IUsuarioContext _usuarioContext;

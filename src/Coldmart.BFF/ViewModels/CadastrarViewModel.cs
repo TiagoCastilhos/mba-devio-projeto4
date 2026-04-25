@@ -1,5 +1,8 @@
-﻿namespace Coldmart.BFF.Services;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Coldmart.BFF.ViewModels;
+
+[ExcludeFromCodeCoverage]
 public class CadastrarViewModel
 {
     public string Email { get; set; }
